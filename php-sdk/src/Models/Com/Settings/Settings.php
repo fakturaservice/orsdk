@@ -14,8 +14,8 @@
  * Path: /secure/com/settings/Settings.php
  */
 
-namespace OrSdk\Models\Com\Settings;
-
+namespace OrSdk\Models\Com;
+die("died at location" . __FILE__ . ":" . __LINE__);
 use OrSdk\Util\dataType;
 use OrSdk\Util\BasicEnum;
 
