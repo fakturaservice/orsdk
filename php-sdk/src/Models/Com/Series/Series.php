@@ -16,9 +16,6 @@
 
 namespace OrSdk\Models\Com\Series;
 
-use OrSdk\Util\dataType;
-use OrSdk\Util\BasicEnum;
-
 use OrSdk\Models\BaseModels;
 
 class Series extends BaseModels
@@ -29,14 +26,4 @@ class Series extends BaseModels
     public $prefix;
     public $postfix;
     public $zeroPad;
-}
-
-class SeriesTypes extends BasicEnum
-{
-    const id     	= dataType::INT;
-    const name   	= dataType::VARCHAR;
-    const nextNo 	= dataType::INT;
-    const prefix 	= dataType::VARCHAR;
-    const postfix	= dataType::VARCHAR;
-    const zeroPad	= dataType::INT;
 }

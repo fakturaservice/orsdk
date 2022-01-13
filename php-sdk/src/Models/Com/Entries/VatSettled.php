@@ -3,12 +3,10 @@
 
 namespace OrSdk\Models\Com\Entries;
 
+use OrSdk\Util\BasicEnum;
 
-class VatSettled
+abstract class VatSettled extends BasicEnum
 {
-
-    public function __construct()
-    {
-    }
-
+    const yes	= 'yes';
+    const no 	= 'no';
 }

@@ -3,12 +3,10 @@
 
 namespace OrSdk\Models\Com\Periods;
 
+use OrSdk\Util\BasicEnum;
 
-class State
+abstract class State extends BasicEnum
 {
-
-    public function __construct()
-    {
-    }
-
+    const open  	= 'open';
+    const closed	= 'closed';
 }

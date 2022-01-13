@@ -3,12 +3,11 @@
 
 namespace OrSdk\Models\Com\Documents;
 
+use OrSdk\Util\BasicEnum;
 
-class DocumentStatus
+abstract class DocumentStatus extends BasicEnum
 {
-
-    public function __construct()
-    {
-    }
-
+    const payed   	= 'payed';
+    const notPayed	= 'notPayed';
+    const failed  	= 'failed';
 }

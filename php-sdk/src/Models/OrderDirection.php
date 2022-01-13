@@ -4,11 +4,12 @@
 namespace OrSdk\Models;
 
 
-class OrderDirection
+/**
+ * Class OrderDirection
+ * @package Models
+ */
+abstract class OrderDirection
 {
-
-    public function __construct()
-    {
-    }
-
+    const asc = "asc";
+    const desc = "desc";
 }

@@ -1,14 +1,11 @@
 <?php
 
-
 namespace OrSdk\Models\Com\Contacts;
 
+use OrSdk\Util\BasicEnum;
 
-class CurrencyIso
+abstract class CurrencyIso extends BasicEnum
 {
-
-    public function __construct()
-    {
-    }
-
+    const dkk	= 'dkk';
+    const nok	= 'nok';
 }

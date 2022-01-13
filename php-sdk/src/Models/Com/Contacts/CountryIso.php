@@ -4,11 +4,10 @@
 namespace OrSdk\Models\Com\Contacts;
 
 
-class CountryIso
+use OrSdk\Util\BasicEnum;
+
+abstract class CountryIso extends BasicEnum
 {
-
-    public function __construct()
-    {
-    }
-
+    const dk	= 'dk';
+    const no	= 'no';
 }

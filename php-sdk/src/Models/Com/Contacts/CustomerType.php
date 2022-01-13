@@ -3,12 +3,10 @@
 
 namespace OrSdk\Models\Com\Contacts;
 
+use OrSdk\Util\BasicEnum;
 
-class CustomerType
+abstract class CustomerType extends BasicEnum
 {
-
-    public function __construct()
-    {
-    }
-
+    const company	= 'company';
+    const private	= 'private';
 }

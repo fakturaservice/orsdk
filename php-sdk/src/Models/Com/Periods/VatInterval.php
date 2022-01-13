@@ -3,12 +3,12 @@
 
 namespace OrSdk\Models\Com\Periods;
 
+use OrSdk\Util\BasicEnum;
 
-class VatInterval
+abstract class VatInterval extends BasicEnum
 {
-
-    public function __construct()
-    {
-    }
-
+    const _6M	= '6M';
+    const _3M	= '3M';
+    const _1M	= '1M';
+    const _12M	= '12M';
 }

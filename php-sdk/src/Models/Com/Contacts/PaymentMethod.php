@@ -1,14 +1,13 @@
 <?php
 
-
 namespace OrSdk\Models\Com\Contacts;
 
+use OrSdk\Util\BasicEnum;
 
-class PaymentMethod
+abstract class PaymentMethod extends BasicEnum
 {
-
-    public function __construct()
-    {
-    }
-
+    const net    	= 'net';
+    const month  	= 'month';
+    const quarter	= 'quarter';
+    const year   	= 'year';
 }

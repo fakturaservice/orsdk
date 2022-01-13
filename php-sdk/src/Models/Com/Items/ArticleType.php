@@ -3,12 +3,11 @@
 
 namespace OrSdk\Models\Com\Items;
 
+use OrSdk\Util\BasicEnum;
 
-class ArticleType
+abstract class ArticleType extends BasicEnum
 {
-
-    public function __construct()
-    {
-    }
-
+    const item   	= 'item';
+    const service	= 'service';
+    const dummy  	= 'dummy';
 }

@@ -3,12 +3,10 @@
 
 namespace OrSdk\Models\Com\Contacts;
 
+use OrSdk\Util\BasicEnum;
 
-class EndpointType
+abstract class EndpointType extends BasicEnum
 {
-
-    public function __construct()
-    {
-    }
-
+    const gln   	= 'gln';
+    const dk_cvr	= 'dk:cvr';
 }

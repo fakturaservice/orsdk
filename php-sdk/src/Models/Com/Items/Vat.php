@@ -3,12 +3,10 @@
 
 namespace OrSdk\Models\Com\Items;
 
+use OrSdk\Util\BasicEnum;
 
-class Vat
+abstract class Vat extends BasicEnum
 {
-
-    public function __construct()
-    {
-    }
-
+    const yes	= 'yes';
+    const no 	= 'no';
 }

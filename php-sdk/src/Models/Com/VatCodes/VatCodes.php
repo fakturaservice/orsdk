@@ -16,9 +16,6 @@
 
 namespace OrSdk\Models\Com\VatCodes;
 
-use OrSdk\Util\dataType;
-use OrSdk\Util\BasicEnum;
-
 use OrSdk\Models\BaseModels;
 
 
@@ -33,39 +30,4 @@ class VatCodes extends BaseModels
     public $contraAccountsId;
     public $vatSection;
     public $active;
-}
-
-class VatCodesTypes extends BasicEnum
-{
-    const id              	= dataType::INT;
-    const code            	= dataType::VARCHAR;
-    const name            	= dataType::VARCHAR;
-    const rate            	= dataType::DECIMAL;
-    const accountsId      	= dataType::INT;
-    const type            	= dataType::ENUM;
-    const contraAccountsId	= dataType::INT;
-    const vatSection      	= dataType::ENUM;
-    const active          	= dataType::ENUM;
-}
-
-abstract class Type extends BasicEnum
-{
-    const expense	= 'expense';
-    const income 	= 'income';
-}
-
-abstract class VatSection extends BasicEnum
-{
-    const A1	= 'A1';
-    const A2	= 'A2';
-    const B1	= 'B1';
-    const B2	= 'B2';
-    const B3	= 'B3';
-    const C1	= 'C1';
-}
-
-abstract class Active extends BasicEnum
-{
-    const yes	= 'yes';
-    const no 	= 'no';
 }

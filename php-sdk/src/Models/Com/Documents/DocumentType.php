@@ -3,12 +3,15 @@
 
 namespace OrSdk\Models\Com\Documents;
 
+use OrSdk\Util\BasicEnum;
 
-class DocumentType
+abstract class DocumentType extends BasicEnum
 {
-
-    public function __construct()
-    {
-    }
-
+    const income       	= 'income';
+    const expense      	= 'expense';
+    const finance      	= 'finance';
+    const bankstatement	= 'bankstatement';
+    const vatreport    	= 'vatreport';
+    const subdocument  	= 'subdocument';
+    const reminder     	= 'reminder';
 }

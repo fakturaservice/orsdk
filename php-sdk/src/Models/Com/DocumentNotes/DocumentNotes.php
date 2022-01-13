@@ -16,9 +16,6 @@
 
 namespace OrSdk\Models\Com\DocumentNotes;
 
-use OrSdk\Util\dataType;
-use OrSdk\Util\BasicEnum;
-
 use OrSdk\Models\BaseModels;
 
 
@@ -31,11 +28,3 @@ class DocumentNotes extends BaseModels
     public $noteBlob;
 }
 
-class DocumentNotesTypes extends BasicEnum
-{
-    const id       	= dataType::INT;
-    const timestamp	= dataType::TIMESTAMP;
-    const docId    	= dataType::INT;
-    const noteDa   	= dataType::TEXT;
-    const noteBlob 	= dataType::LONGBLOB;
-}

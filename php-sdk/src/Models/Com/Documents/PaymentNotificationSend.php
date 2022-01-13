@@ -3,12 +3,10 @@
 
 namespace OrSdk\Models\Com\Documents;
 
+use OrSdk\Util\BasicEnum;
 
-class PaymentNotificationSend
+abstract class PaymentNotificationSend extends BasicEnum
 {
-
-    public function __construct()
-    {
-    }
-
+    const yes	= 'yes';
+    const no 	= 'no';
 }

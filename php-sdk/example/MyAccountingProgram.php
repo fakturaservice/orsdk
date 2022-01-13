@@ -13,11 +13,14 @@
  * Time: 13:16
  */
 
-namespace OrSdk\Tests;
+/** Composer Autoload to define Namespaces */
+if ( file_exists(dirname(__FILE__).'/../vendor/autoload.php') ) {
+    require_once dirname(__FILE__).'/../vendor/autoload.php';
+}
 
-use DateInterval;
-use DateTime;
+
 use OrSdk\Client;
+use OrSdk\Models\Com\Settings\Settings;
 use OrSdk\Models\Com\Documents\{
     Documents,
     DocumentType,
@@ -28,11 +31,13 @@ use OrSdk\Models\Com\Documents\{
 };
 
 use OrSdk\Util\ORException;
-use OrSdk\Models\Com\Settings\{
-    Settings
-};
 use OrSdk\Models\Com\Accounts\{
-    Accounts
+    Accounts,
+    AccountsTypes,
+    AccountType,
+    Active,
+    BankAccount,
+    BankGiroType
 };
 use OrSdk\Models\Com\Contacts\{
     Contacts,
@@ -78,7 +83,7 @@ class MyAccountingProgram extends Client
     public function __construct()
     {
         parent::__construct(self::HOST, self::USER, self::PASS, self::LEDGER_ID);
-        
+
         $this->_settings = new Settings(["id" => 1]);
         $this->modelGet($this->_settings);
     }
@@ -97,7 +102,11 @@ class MyAccountingProgram extends Client
         ]);
         switch ($cmd)
         {
-            case "1": print_r($this->settings());return;
+            case "1":
+            {
+                print_r($this->settings());
+                return;
+            }
             case "2": print_r($this->getDocuments());return;
         }
     }
@@ -153,7 +162,7 @@ class MyAccountingProgram extends Client
      */
     public function createInvoice()
     {
-        $today      = new DateTime();
+        $today      = new \DateTime();
         $dueDate    = clone $today;
 
         $acc    = new Accounts();
@@ -170,7 +179,7 @@ class MyAccountingProgram extends Client
         $con->contactType       = ContactType::customer;
         $con->customerIdentify  = "820";
         $this->modelGet($con);
-        $dueDate->add(new DateInterval("P{$con->daysAfterBasis}D"));
+        $dueDate->add(new \DateInterval("P{$con->daysAfterBasis}D"));
 
         $itm->articleNo = "19";
         $this->modelGet($itm);

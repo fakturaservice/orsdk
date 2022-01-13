@@ -16,11 +16,7 @@
 
 namespace OrSdk\Models\Com\Accounts;
 
-use OrSdk\Util\dataType;
-use OrSdk\Util\BasicEnum;
-
 use OrSdk\Models\BaseModels;
-
 
 class Accounts extends BaseModels
 {
@@ -40,55 +36,4 @@ class Accounts extends BaseModels
     public $bankGiroType;
     public $bankGiroCreditorNo;
     public $bankAccount;
-}
-
-class AccountsTypes extends BasicEnum
-{
-    const id                	= dataType::INT;
-    const accountNumber     	= dataType::INT;
-    const name              	= dataType::VARCHAR;
-    const vat_codesId       	= dataType::INT;
-    const accountType       	= dataType::ENUM;
-    const sumFrom           	= dataType::INT;
-    const contraAccountsId  	= dataType::INT;
-    const active            	= dataType::ENUM;
-    const bankName          	= dataType::VARCHAR;
-    const bankAccountNo     	= dataType::VARCHAR;
-    const bankRegistrationNo	= dataType::VARCHAR;
-    const bankIbanNo        	= dataType::VARCHAR;
-    const bankSwiftCode     	= dataType::VARCHAR;
-    const bankGiroType      	= dataType::ENUM;
-    const bankGiroCreditorNo	= dataType::VARCHAR;
-    const bankAccount       	= dataType::ENUM;
-}
-
-abstract class AccountType extends BasicEnum
-{
-    const income 	= 'income';
-    const expense	= 'expense';
-    const status 	= 'status';
-    const heading	= 'heading';
-    const sum    	= 'sum';
-}
-
-abstract class Active extends BasicEnum
-{
-    const yes	= 'yes';
-    const no 	= 'no';
-}
-
-abstract class BankGiroType extends BasicEnum
-{
-    const _01	= '+01';
-    const _04	= '+04';
-    const _15	= '+15';
-    const _71	= '+71';
-    const _73	= '+73';
-    const _75	= '+75';
-}
-
-abstract class BankAccount extends BasicEnum
-{
-    const yes	= 'yes';
-    const no 	= 'no';
 }

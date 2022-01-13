@@ -3,12 +3,11 @@
 
 namespace OrSdk\Models\Com\Documents;
 
+use OrSdk\Util\BasicEnum;
 
-class DispatchMethod
+abstract class DispatchMethod extends BasicEnum
 {
-
-    public function __construct()
-    {
-    }
-
+    const email    	= 'email';
+    const GLN      	= 'GLN';
+    const snailMail	= 'snailMail';
 }

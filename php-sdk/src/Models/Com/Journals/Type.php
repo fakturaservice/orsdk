@@ -3,12 +3,12 @@
 
 namespace OrSdk\Models\Com\Journals;
 
+use OrSdk\Util\BasicEnum;
 
-class Type
+abstract class Type extends BasicEnum
 {
-
-    public function __construct()
-    {
-    }
-
+    const standard   	= 'standard';
+    const import     	= 'import';
+    const backconnect	= 'backconnect';
+    const bankfile   	= 'bankfile';
 }

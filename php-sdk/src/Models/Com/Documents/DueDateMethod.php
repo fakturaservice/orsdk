@@ -3,12 +3,10 @@
 
 namespace OrSdk\Models\Com\Documents;
 
+use OrSdk\Util\BasicEnum;
 
-class DueDateMethod
+abstract class DueDateMethod extends BasicEnum
 {
-
-    public function __construct()
-    {
-    }
-
+    const net  	= 'net';
+    const month	= 'month';
 }

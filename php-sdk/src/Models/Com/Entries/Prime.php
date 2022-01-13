@@ -3,12 +3,10 @@
 
 namespace OrSdk\Models\Com\Entries;
 
+use OrSdk\Util\BasicEnum;
 
-class Prime
+abstract class Prime extends BasicEnum
 {
-
-    public function __construct()
-    {
-    }
-
+    const no 	= 'no';
+    const yes	= 'yes';
 }

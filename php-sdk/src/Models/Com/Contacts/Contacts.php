@@ -16,11 +16,7 @@
 
 namespace OrSdk\Models\Com\Contacts;
 
-use OrSdk\Util\dataType;
-use OrSdk\Util\BasicEnum;
-
 use OrSdk\Models\BaseModels;
-
 
 class Contacts extends BaseModels
 {
@@ -46,80 +42,4 @@ class Contacts extends BaseModels
     public $customerType;
     public $customerIdentify;
     public $contactType;
-}
-
-class ContactsTypes extends BasicEnum
-{
-    const id                   	= dataType::INT;
-    const paymentMethod        	= dataType::ENUM;
-    const daysAfterBasis       	= dataType::INT;
-    const name                 	= dataType::VARCHAR;
-    const add1                 	= dataType::VARCHAR;
-    const add2                 	= dataType::VARCHAR;
-    const postalCode           	= dataType::VARCHAR;
-    const city                 	= dataType::VARCHAR;
-    const countryIso           	= dataType::ENUM;
-    const languageIso          	= dataType::ENUM;
-    const mail                 	= dataType::VARCHAR;
-    const contactName          	= dataType::VARCHAR;
-    const endpointType         	= dataType::ENUM;
-    const endpoint             	= dataType::VARCHAR;
-    const mobile               	= dataType::VARCHAR;
-    const currencyIso          	= dataType::ENUM;
-    const vat_codesId          	= dataType::INT;
-    const companyRegistrationNo	= dataType::VARCHAR;
-    const active               	= dataType::ENUM;
-    const customerType         	= dataType::ENUM;
-    const customerIdentify     	= dataType::VARCHAR;
-    const contactType          	= dataType::ENUM;
-}
-
-abstract class PaymentMethod extends BasicEnum
-{
-    const net    	= 'net';
-    const month  	= 'month';
-    const quarter	= 'quarter';
-    const year   	= 'year';
-}
-
-abstract class CountryIso extends BasicEnum
-{
-    const dk	= 'dk';
-    const no	= 'no';
-}
-
-abstract class LanguageIso extends BasicEnum
-{
-    const da	= 'da';
-    const no	= 'no';
-}
-
-abstract class EndpointType extends BasicEnum
-{
-    const gln   	= 'gln';
-    const dk_cvr	= 'dk:cvr';
-}
-
-abstract class CurrencyIso extends BasicEnum
-{
-    const dkk	= 'dkk';
-    const nok	= 'nok';
-}
-
-abstract class Active extends BasicEnum
-{
-    const yes	= 'yes';
-    const no 	= 'no';
-}
-
-abstract class CustomerType extends BasicEnum
-{
-    const company	= 'company';
-    const private	= 'private';
-}
-
-abstract class ContactType extends BasicEnum
-{
-    const customer	= 'customer';
-    const supplier	= 'supplier';
 }

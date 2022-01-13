@@ -3,12 +3,12 @@
 
 namespace OrSdk\Models\Com\Journals;
 
+use OrSdk\Util\BasicEnum;
+use OrSdk\Util\dataType;
 
-class JournalsTypes
+class JournalsTypes extends BasicEnum
 {
-
-    public function __construct()
-    {
-    }
-
+    const id  	= dataType::INT;
+    const name	= dataType::VARCHAR;
+    const type	= dataType::ENUM;
 }

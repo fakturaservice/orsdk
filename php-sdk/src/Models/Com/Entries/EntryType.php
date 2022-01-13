@@ -3,12 +3,11 @@
 
 namespace OrSdk\Models\Com\Entries;
 
+use OrSdk\Util\BasicEnum;
 
-class EntryType
+abstract class EntryType extends BasicEnum
 {
-
-    public function __construct()
-    {
-    }
-
+    const main  	= 'main';
+    const contra	= 'contra';
+    const vat   	= 'vat';
 }

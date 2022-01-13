@@ -3,12 +3,10 @@
 
 namespace OrSdk\Models\Com\Entries;
 
+use OrSdk\Util\BasicEnum;
 
-class CurrencyIso
+abstract class CurrencyIso extends BasicEnum
 {
-
-    public function __construct()
-    {
-    }
-
+    const dkk	= 'dkk';
+    const eur	= 'eur';
 }

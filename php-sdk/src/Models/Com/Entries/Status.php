@@ -3,12 +3,10 @@
 
 namespace OrSdk\Models\Com\Entries;
 
+use OrSdk\Util\BasicEnum;
 
-class Status
+abstract class Status extends BasicEnum
 {
-
-    public function __construct()
-    {
-    }
-
+    const draft 	= 'draft';
+    const posted	= 'posted';
 }

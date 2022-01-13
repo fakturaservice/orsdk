@@ -16,9 +16,6 @@
 
 namespace OrSdk\Models\Com\Items;
 
-use OrSdk\Util\dataType;
-use OrSdk\Util\BasicEnum;
-
 use OrSdk\Models\BaseModels;
 
 class Items extends BaseModels
@@ -32,36 +29,4 @@ class Items extends BaseModels
     public $vat;
     public $accountsId;
     public $active;
-}
-
-class ItemsTypes extends BasicEnum
-{
-    const id         	= dataType::INT;
-    const articleType	= dataType::ENUM;
-    const articleNo  	= dataType::VARCHAR;
-    const name       	= dataType::VARCHAR;
-    const unit       	= dataType::VARCHAR;
-    const price      	= dataType::DECIMAL;
-    const vat        	= dataType::ENUM;
-    const accountsId 	= dataType::INT;
-    const active     	= dataType::ENUM;
-}
-
-abstract class ArticleType extends BasicEnum
-{
-    const item   	= 'item';
-    const service	= 'service';
-    const dummy  	= 'dummy';
-}
-
-abstract class Vat extends BasicEnum
-{
-    const yes	= 'yes';
-    const no 	= 'no';
-}
-
-abstract class Active extends BasicEnum
-{
-    const yes	= 'yes';
-    const no 	= 'no';
 }

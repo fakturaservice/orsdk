@@ -16,9 +16,6 @@
 
 namespace OrSdk\Models\Com\Journals;
 
-use OrSdk\Util\dataType;
-use OrSdk\Util\BasicEnum;
-
 use OrSdk\Models\BaseModels;
 
 class Journals extends BaseModels
@@ -26,19 +23,4 @@ class Journals extends BaseModels
     public $id;
     public $name;
     public $type;
-}
-
-class JournalsTypes extends BasicEnum
-{
-    const id  	= dataType::INT;
-    const name	= dataType::VARCHAR;
-    const type	= dataType::ENUM;
-}
-
-abstract class Type extends BasicEnum
-{
-    const standard   	= 'standard';
-    const import     	= 'import';
-    const backconnect	= 'backconnect';
-    const bankfile   	= 'bankfile';
 }

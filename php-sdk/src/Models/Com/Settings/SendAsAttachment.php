@@ -3,12 +3,10 @@
 
 namespace OrSdk\Models\Com;
 
+use OrSdk\Util\BasicEnum;
 
-class SendAsAttachment
+abstract class SendAsAttachment extends BasicEnum
 {
-
-    public function __construct()
-    {
-    }
-
+    const yes	= 'yes';
+    const no 	= 'no';
 }

@@ -6,12 +6,10 @@
  * Time: 13:16
  */
 
-namespace OrSdk\Tests;
 
-require_once "MyAccountingProgram.php";
+require_once __DIR__ . "/MyAccountingProgram.php";
 
 use OrSdk\Util\ORException;
-use OrSdk\Tests\MyAccountingProgram;
 
 $myAccountingProgram = new MyAccountingProgram();
 

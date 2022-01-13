@@ -14,10 +14,7 @@
  * Path: /secure/com/settings/Settings.php
  */
 
-namespace OrSdk\Models\Com;
-die("died at location" . __FILE__ . ":" . __LINE__);
-use OrSdk\Util\dataType;
-use OrSdk\Util\BasicEnum;
+namespace OrSdk\Models\Com\Settings;
 
 use OrSdk\Models\BaseModels;
 
@@ -67,117 +64,4 @@ class Settings extends BaseModels
     public $reportOrderDirection;
     public $reportAmountDisplay;
     public $interestFeeAccountId;
-}
-
-class SettingsTypes extends BasicEnum
-{
-    const id                                  	= dataType::INT;
-    const companyRegistrationNo               	= dataType::VARCHAR;
-    const name                                	= dataType::VARCHAR;
-    const add1                                	= dataType::VARCHAR;
-    const add2                                	= dataType::VARCHAR;
-    const postalZone                          	= dataType::VARCHAR;
-    const city                                	= dataType::VARCHAR;
-    const mail                                	= dataType::VARCHAR;
-    const contactName                         	= dataType::VARCHAR;
-    const www                                 	= dataType::VARCHAR;
-    const mobile                              	= dataType::VARCHAR;
-    const nextInvoiceNo                       	= dataType::INT;
-    const prefixInvoiceNo                     	= dataType::VARCHAR;
-    const postfixInvoiceNo                    	= dataType::VARCHAR;
-    const zeroPadInvoiceNo                    	= dataType::INT;
-    const invoiceLogo                         	= dataType::LONGBLOB;
-    const debtorAccountsId                    	= dataType::INT;
-    const creditorAccountsId                  	= dataType::INT;
-    const defaultBankAccountsId               	= dataType::INT;
-    const resultAccountsId                    	= dataType::INT;
-    const analysisAccountsId                  	= dataType::INT;
-    const vatSales                            	= dataType::INT;
-    const vatPurchase                         	= dataType::INT;
-    const vatGoodsIntPurchase                 	= dataType::INT;
-    const vatServicesIntPurchaseReversePayment	= dataType::INT;
-    const vatOilAndBottledGas                 	= dataType::INT;
-    const vatElectricity                      	= dataType::INT;
-    const vatNaturalAndCityGas                	= dataType::INT;
-    const vatCoal                             	= dataType::INT;
-    const vatCarbonEmission                   	= dataType::INT;
-    const vatWater                            	= dataType::INT;
-    const vatSettlement                       	= dataType::INT;
-    const sendAsAttachment                    	= dataType::ENUM;
-    const currentTemplate                     	= dataType::VARCHAR;
-    const defaultJournalAccountsId1           	= dataType::INT;
-    const defaultJournalAccountsId2           	= dataType::INT;
-    const defaultJournalAccountsId3           	= dataType::INT;
-    const nextJournalId                       	= dataType::INT;
-    const defaultPaymentDays                  	= dataType::INT;
-    const businessForm                        	= dataType::ENUM;
-    const vatRegistration                     	= dataType::ENUM;
-    const reportOrderDirection                	= dataType::ENUM;
-    const reportAmountDisplay                 	= dataType::ENUM;
-    const interestFeeAccountId                	= dataType::INT;
-}
-
-abstract class SendAsAttachment extends BasicEnum
-{
-    const yes	= 'yes';
-    const no 	= 'no';
-}
-
-abstract class BusinessForm extends BasicEnum
-{
-    const A_S 	= 'A/S';
-    const ABA 	= 'ABA';
-    const ANS 	= 'ANS';
-    const APS 	= 'APS';
-    const DOED	= 'DØD';
-    const E_S 	= 'E/S';
-    const EFO 	= 'EFO';
-    const ENK 	= 'ENK';
-    const EOEF	= 'EØF';
-    const FAP 	= 'FAP';
-    const FAS 	= 'FAS';
-    const FBA 	= 'FBA';
-    const FEOE	= 'FEØ';
-    const FES 	= 'FES';
-    const FFO 	= 'FFO';
-    const FIV 	= 'FIV';
-    const FKI 	= 'FKI';
-    const FMA 	= 'FMA';
-    const FON 	= 'FON';
-    const FOR 	= 'FOR';
-    const GUS 	= 'GUS';
-    const I_S 	= 'I/S';
-    const IVS 	= 'IVS';
-    const K_S 	= 'K/S';
-    const KAS 	= 'KAS';
-    const KOM 	= 'KOM';
-    const MSS 	= 'MSS';
-    const PAR 	= 'PAR';
-    const PMV 	= 'PMV';
-    const REG 	= 'REG';
-    const SMA 	= 'SMA';
-    const SOV 	= 'SOV';
-    const STA 	= 'STA';
-    const UDL 	= 'UDL';
-    const UOP 	= 'UOP';
-    const OEVR	= 'ØVR';
-}
-
-abstract class VatRegistration extends BasicEnum
-{
-    const yes	= 'yes';
-    const no 	= 'no';
-}
-
-abstract class ReportOrderDirection extends BasicEnum
-{
-    const asc 	= 'asc';
-    const desc	= 'desc';
-}
-
-abstract class ReportAmountDisplay extends BasicEnum
-{
-    const singleColSigned      	= 'singleColSigned';
-    const twoColDebitCredit    	= 'twoColDebitCredit';
-    const twoColWithdrawDeposit	= 'twoColWithdrawDeposit';
 }

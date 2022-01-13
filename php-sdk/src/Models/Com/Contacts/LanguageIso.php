@@ -1,14 +1,11 @@
 <?php
 
-
 namespace OrSdk\Models\Com\Contacts;
 
+use OrSdk\Util\BasicEnum;
 
-class LanguageIso
+abstract class LanguageIso extends BasicEnum
 {
-
-    public function __construct()
-    {
-    }
-
+    const da	= 'da';
+    const no	= 'no';
 }

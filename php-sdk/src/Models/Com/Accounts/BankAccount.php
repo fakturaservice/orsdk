@@ -1,14 +1,11 @@
 <?php
 
-
 namespace OrSdk\Models\Com\Accounts;
 
+use OrSdk\Util\BasicEnum;
 
-class BankAccount
+abstract class BankAccount extends BasicEnum
 {
-
-    public function __construct()
-    {
-    }
-
+    const yes	= 'yes';
+    const no 	= 'no';
 }

@@ -3,12 +3,10 @@
 
 namespace OrSdk\Models\Com\VatCodes;
 
+use OrSdk\Util\BasicEnum;
 
-class Type
+abstract class Type extends BasicEnum
 {
-
-    public function __construct()
-    {
-    }
-
+    const expense	= 'expense';
+    const income 	= 'income';
 }

@@ -3,12 +3,11 @@
 
 namespace OrSdk\Models\Com;
 
+use OrSdk\Util\BasicEnum;
 
-class ReportAmountDisplay
+abstract class ReportAmountDisplay extends BasicEnum
 {
-
-    public function __construct()
-    {
-    }
-
+    const singleColSigned      	= 'singleColSigned';
+    const twoColDebitCredit    	= 'twoColDebitCredit';
+    const twoColWithdrawDeposit	= 'twoColWithdrawDeposit';
 }

@@ -16,9 +16,6 @@
 
 namespace OrSdk\Models\Com\Periods;
 
-use OrSdk\Util\dataType;
-use OrSdk\Util\BasicEnum;
-
 use OrSdk\Models\BaseModels;
 
 
@@ -33,31 +30,4 @@ class Periods extends BaseModels
     public $prefixFinanceVoucherNo;
     public $postfixFinanceVoucherNo;
     public $zeroPadFinanceVoucherNo;
-}
-
-class PeriodsTypes extends BasicEnum
-{
-    const id                     	= dataType::INT;
-    const periodStart            	= dataType::DATE;
-    const periodEnd              	= dataType::DATE;
-    const state                  	= dataType::ENUM;
-    const vatInterval            	= dataType::ENUM;
-    const financeVoucherNo       	= dataType::INT;
-    const prefixFinanceVoucherNo 	= dataType::VARCHAR;
-    const postfixFinanceVoucherNo	= dataType::VARCHAR;
-    const zeroPadFinanceVoucherNo	= dataType::INT;
-}
-
-abstract class State extends BasicEnum
-{
-    const open  	= 'open';
-    const closed	= 'closed';
-}
-
-abstract class VatInterval extends BasicEnum
-{
-    const _6M	= '6M';
-    const _3M	= '3M';
-    const _1M	= '1M';
-    const _12M	= '12M';
 }

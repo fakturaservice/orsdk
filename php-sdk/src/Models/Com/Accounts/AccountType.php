@@ -1,14 +1,15 @@
 <?php
 
-
 namespace OrSdk\Models\Com\Accounts;
 
+use OrSdk\Util\BasicEnum;
 
-class AccountType
+abstract class AccountType extends BasicEnum
 {
-
-    public function __construct()
-    {
-    }
+    const income 	= 'income';
+    const expense	= 'expense';
+    const status 	= 'status';
+    const heading	= 'heading';
+    const sum    	= 'sum';
 
 }

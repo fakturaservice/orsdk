@@ -16,9 +16,6 @@
 
 namespace OrSdk\Models\Com\Reconciliations;
 
-use OrSdk\Util\dataType;
-use OrSdk\Util\BasicEnum;
-
 use OrSdk\Models\BaseModels;
 
 
@@ -29,13 +26,4 @@ class Reconciliations extends BaseModels
     public $amount;
     public $contraDocumentsId;
     public $entryDate;
-}
-
-class ReconciliationsTypes extends BasicEnum
-{
-    const id               	= dataType::INT;
-    const documentsId      	= dataType::INT;
-    const amount           	= dataType::DECIMAL;
-    const contraDocumentsId	= dataType::INT;
-    const entryDate        	= dataType::DATE;
 }

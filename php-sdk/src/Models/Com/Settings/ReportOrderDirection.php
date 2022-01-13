@@ -3,12 +3,10 @@
 
 namespace OrSdk\Models\Com;
 
+use OrSdk\Util\BasicEnum;
 
-class ReportOrderDirection
+abstract class ReportOrderDirection extends BasicEnum
 {
-
-    public function __construct()
-    {
-    }
-
+    const asc 	= 'asc';
+    const desc	= 'desc';
 }

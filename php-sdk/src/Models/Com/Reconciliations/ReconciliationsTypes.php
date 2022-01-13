@@ -3,12 +3,14 @@
 
 namespace OrSdk\Models\Com\Reconciliations;
 
+use OrSdk\Util\BasicEnum;
+use OrSdk\Util\dataType;
 
-class ReconciliationsTypes
+class ReconciliationsTypes extends BasicEnum
 {
-
-    public function __construct()
-    {
-    }
-
+    const id               	= dataType::INT;
+    const documentsId      	= dataType::INT;
+    const amount           	= dataType::DECIMAL;
+    const contraDocumentsId	= dataType::INT;
+    const entryDate        	= dataType::DATE;
 }

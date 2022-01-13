@@ -1,16 +1,15 @@
 {
-    "name": "orsdk-client-php/php-sdk",
+    "name": "orsdk/php-sdk",
     "type": "library",
     "description": "PHP SDK for OnlineRegnskab.dk API",
     "homepage": "https://fakturaserviceTWL@bitbucket.org/fakturaservice/orsdk-client-php.git",
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "OrSdk\\": "/"
+            "OrSdk\\": "src/"
         }
     },
     "require": {
-        "php": ">=5.6",
-        "league/oauth2-client": "^2.3"
+        "php": ">=5.6"
     }
 }
