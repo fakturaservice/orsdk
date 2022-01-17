@@ -128,7 +128,8 @@ class Client
             ($response["error_code"] < ApiResponseCodes::SYS_WARNING)
         )
             throw new ORException($response["message"]);
-        $mod->setValues($response[$mod->getModelName(true)][0]);
+        if(isset($response[$mod->getModelName(true)][0]))
+            $mod->setValues($response[$mod->getModelName(true)][0]);
         return $response;
     }
 
