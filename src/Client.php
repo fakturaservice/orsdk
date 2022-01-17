@@ -52,8 +52,7 @@ class Client
      */
     protected function modelPost(BaseModels &$mod, bool $debug=false)
     {
-        
-        $args   = array_filter($mod->getValues(true));
+        $args   = array_filter($mod->getValues(true, 0, null, ["id"]));
 
         $curl       = curl_init();
         $argStr     = (isset($this->_ORApiToken))?(array("token" => $this->_ORApiToken) + $args):$args;
