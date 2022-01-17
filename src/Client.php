@@ -16,6 +16,7 @@
 namespace OrSdk;
 
 use OrSdk\Models\BaseModels;
+use OrSdk\Models\Com\Documents\DocumentType;
 use OrSdk\Util\ApiResponseCodes;
 use OrSdk\Util\ORException;
 
@@ -255,6 +256,90 @@ class Client
         return $response;
     }
 
+    /**
+     * @param $cvr
+     * @param bool $debug
+     * @return mixed
+     * @throws ORException
+     */
+    protected function getCustomerByCvr($cvr, bool $debug=false)
+    {
+        $curl       = curl_init();
+        $argStr     = http_build_query((array("token" => $this->_ORApiToken) + ["query" => $cvr]));
+
+        curl_setopt_array($curl, [
+            CURLOPT_URL => $this->_ORApiHost . "ext/cvr/?$argStr",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => false,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLINFO_HEADER_OUT => true
+        ]);
+
+        $response   = curl_exec($curl);
+        $err        = curl_error($curl);
+        $info       = curl_getinfo($curl);
+        curl_close($curl);
+
+        if($debug)
+        {
+            $this->debug("ext/book", $argStr, "GET", $response, $err, $info);
+        }
+
+        $response = json_decode($response, true);
+        if(
+            ($response["error_code"] > ApiResponseCodes::OK) &&
+            ($response["error_code"] < ApiResponseCodes::SYS_WARNING)
+        )
+            throw new ORException($response["message"]);
+        return $response;
+    }
+
+    /**
+     * @param $customerId
+     * @param bool $debug
+     * @return mixed
+     * @throws ORException
+     */
+    protected function creatDraftInvoice($customerId, bool $debug=false)
+    {
+        $curl       = curl_init();
+        $argStr     = http_build_query((array("token" => $this->_ORApiToken) + ["contactsId" => $customerId, "documentType" => DocumentType::income]));
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => $this->_ORApiHost . "ext/documents",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => false,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => $argStr,
+            CURLINFO_HEADER_OUT => true
+        ));
+
+        $response   = curl_exec($curl);
+        $err        = curl_error($curl);
+        $info       = curl_getinfo($curl);
+        curl_close($curl);
+
+        if($debug)
+        {
+            $this->debug("ext/documents", $argStr, "POST", $response, $err, $info);
+        }
+
+        $response = json_decode($response, true);
+        if(
+            ($response["error_code"] > ApiResponseCodes::OK) &&
+            ($response["error_code"] < ApiResponseCodes::SYS_WARNING)
+        )
+            throw new ORException($response["message"]);
+        return $response;
+    }
     /**
      * @throws ORException
      */
