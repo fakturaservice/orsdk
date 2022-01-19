@@ -77,7 +77,7 @@ class Client
         curl_close($curl);
 
         if($debug)
-            $this->debug($mod->getApiName(), $argStr, "POST", $response, $err, $info);
+            $this->debug($mod->getApiName(true), $argStr, "POST", $response, $err, $info);
 
         $response = json_decode($response, true);
         if(
@@ -120,7 +120,7 @@ class Client
 
         if($debug)
         {
-            $this->debug($mod->getApiName(), $argStr, "GET", $response, $err, $info);
+            $this->debug($mod->getApiName(true), $argStr, "GET", $response, $err, $info);
         }
 
         $response = json_decode($response, true);
@@ -163,7 +163,7 @@ class Client
         curl_close($curl);
 
         if($debug)
-            $this->debug($mod->getApiName(), $argStr, "PUT", $response, $err, $info);
+            $this->debug($mod->getApiName(true), $argStr, "PUT", $response, $err, $info);
 
         $response = json_decode($response, true);
         if(
@@ -203,7 +203,7 @@ class Client
         curl_close($curl);
 
         if($debug)
-            $this->debug($mod->getApiName(), $argStr, "DELETE", $response, $err, $info);
+            $this->debug($mod->getApiName(true), $argStr, "DELETE", $response, $err, $info);
 
         $response = json_decode($response, true);
         if(
