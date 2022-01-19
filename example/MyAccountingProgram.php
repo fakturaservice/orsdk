@@ -68,11 +68,16 @@ use OrSdk\Models\Com\Series\{
 class MyAccountingProgram extends Client
 {
     const HOST      = "http://api.onlineregnskab.test/";
-    const USER      = "twl@onlineregnskab.dk";
-//    const USER      = "testbruger";
-    const PASS      = "starwars1";
-    const LEDGER_ID = "101";
+//    const HOST      = "https://api.onlineregnskab.dk/";
 
+    const USER      = "testbruger";
+//    const USER      = "twl@onlineregnskab.dk";
+
+    const PASS      = "starwars1";
+//    const PASS      = "fSStarwars#4";
+
+    const LEDGER_ID = "101";
+//    const LEDGER_ID = "128";
 
     private $_settings;
 
@@ -98,7 +103,8 @@ class MyAccountingProgram extends Client
             "Type what command you want to run:",
             "\t1. Get setting",
             "\t2. Get all documents",
-            "\t3. Create new invoice"
+            "\t3. Create new invoice",
+            "\t4. Download all account statements"
         ]);
         switch ($cmd)
         {
@@ -108,7 +114,68 @@ class MyAccountingProgram extends Client
                 return;
             }
             case "2": print_r($this->getDocuments());return;
+            case "4":
+            {
+                $this->downloadAllAccountStatements();
+                break;
+            }
         }
+    }
+
+    /**
+     * @throws ORException
+     */
+    private function downloadAllAccountStatements()
+    {
+        $res = $this->get("ext/reports/balance_sheet", [
+            "entryDate" => "><2021-01-01;2021-12-31",
+            "excludeEmptyAccounts" => "yes"
+        ]);
+        $total = count(array_filter($res["balance_sheet"],function($element) {
+            return (
+                ($element['accountType'] == AccountType::income) ||
+                ($element['accountType'] == AccountType::status) ||
+                ($element['accountType'] == AccountType::expense)
+            );
+        }));
+//        $total  = count($res["balance_sheet"]);
+        $done   = 0;
+        echo "Downloading:\n";
+
+        foreach ($res["balance_sheet"] as $account)
+        {
+            switch($account["accountType"])
+            {
+                case AccountType::income:
+                case AccountType::status:
+                case AccountType::expense:
+                {
+                    $this->progressBar($done++, $total);
+                    $fileName = "{$account["accountNumber"]} {$account["name"]}";
+                    $fileName = preg_replace('/[^a-å\d]/i', '_', $fileName) . ".pdf";
+                    if(!$this->downloadFile("ext/reports/account_statement", [
+                        "entryDate" => "><2021-01-01;2021-12-31",
+                        "accountsId" => $account["id"],
+                        "format" => "pdf",
+                        "fileName" => $fileName,
+                        "orderBy" => "entryDate;desc",
+                        "limit" => "500",
+                    ], $fileName))
+                    {
+                        echo "Failed at '$fileName'";
+                        return;
+                    }
+                }
+            }
+        }
+        $this->progressBar($done, $total);
+        echo "\nDone\n";
+    }
+    private function progressBar($done, $total) {
+        $perc = floor(($done / $total) * 100);
+        $left = 100 - $perc;
+        $write = sprintf("\033[0G\033[2K[%'={$perc}s>%-{$left}s] - $perc%% - $done/$total", "", "");
+        fwrite(STDERR, $write);
     }
 
     /**

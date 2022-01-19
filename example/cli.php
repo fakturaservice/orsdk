@@ -11,7 +11,7 @@ require_once __DIR__ . "/MyAccountingProgram.php";
 
 use OrSdk\Util\ORException;
 
-$myAccountingProgram = new RenewSubscriptions();
+$myAccountingProgram = new MyAccountingProgram();
 
 try
 {

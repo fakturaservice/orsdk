@@ -42,6 +42,8 @@ class Client
     {
         $this->_ORApiHost   = $host;
         $this->_ORApiToken  = $this->login($userName, $password, $ledgersId);
+        if(!$this->_ORApiToken)
+            throw new ORException("Access denied", ORException::CH_PERMISSION);
     }
 
     /**
@@ -286,7 +288,7 @@ class Client
 
         if($debug)
         {
-            $this->debug("ext/book", $argStr, "GET", $response, $err, $info);
+            $this->debug("ext/cvr", $argStr, "GET", $response, $err, $info);
         }
 
         $response = json_decode($response, true);
@@ -298,6 +300,62 @@ class Client
         return $response;
     }
 
+    /**
+     * @param $api
+     * @param array $arg
+     * @param bool $debug
+     * @return mixed
+     * @throws ORException
+     */
+    protected function get($api, array $arg, bool $debug=false)
+    {
+        $curl       = curl_init();
+        $argStr     = http_build_query((array("token" => $this->_ORApiToken) + $arg));
+
+        curl_setopt_array($curl, [
+            CURLOPT_URL => $this->_ORApiHost . "$api/?$argStr",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => false,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLINFO_HEADER_OUT => true
+        ]);
+
+        $response   = curl_exec($curl);
+        $err        = curl_error($curl);
+        $info       = curl_getinfo($curl);
+        curl_close($curl);
+
+        if($debug)
+        {
+            $this->debug("$api", $argStr, "GET", $response, $err, $info);
+        }
+
+        $response = json_decode($response, true);
+        if(
+            ($response["error_code"] > ApiResponseCodes::OK) &&
+            ($response["error_code"] < ApiResponseCodes::SYS_WARNING)
+        )
+            throw new ORException($response["message"]);
+        return $response;
+    }
+
+    /**
+     * @param $api
+     * @param array $arg
+     * @param $filePath
+     * @param bool $debug
+     * @return false|int
+     */
+    protected function downloadFile($api, array $arg, $filePath, bool $debug=false)
+    {
+        $argStr     = http_build_query((array("token" => $this->_ORApiToken) + $arg));
+        $url        = $this->_ORApiHost . "$api/?$argStr";
+        return file_put_contents($filePath, file_get_contents($url));
+    }
     /**
      * @param $customerId
      * @param bool $debug
