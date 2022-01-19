@@ -145,7 +145,6 @@ class Client
         $curl       = curl_init();
         $argStr     = http_build_query(array("token" => $this->_ORApiToken) + $mod->getValues(true));
 
-
         curl_setopt_array($curl, array(
             CURLOPT_URL => $this->_ORApiHost . "{$mod->getApiName(true)}/?$argStr",
             CURLOPT_RETURNTRANSFER => true,
@@ -332,6 +331,49 @@ class Client
         if($debug)
         {
             $this->debug("$api", $argStr, "GET", $response, $err, $info);
+        }
+
+        $response = json_decode($response, true);
+        if(
+            ($response["error_code"] > ApiResponseCodes::OK) &&
+            ($response["error_code"] < ApiResponseCodes::SYS_WARNING)
+        )
+            throw new ORException($response["message"]);
+        return $response;
+    }
+
+    /**
+     * @param $api
+     * @param array $arg
+     * @param bool $debug
+     * @return mixed
+     * @throws ORException
+     */
+    protected function put($api, array $arg, bool $debug=false)
+    {
+        $curl       = curl_init();
+        $argStr     = http_build_query((array("token" => $this->_ORApiToken) + $arg));
+
+        curl_setopt_array($curl, [
+            CURLOPT_URL => $this->_ORApiHost . "$api/?$argStr",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => false,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "PUT",
+            CURLINFO_HEADER_OUT => true
+        ]);
+
+        $response   = curl_exec($curl);
+        $err        = curl_error($curl);
+        $info       = curl_getinfo($curl);
+        curl_close($curl);
+
+        if($debug)
+        {
+            $this->debug("$api", $argStr, "PUT", $response, $err, $info);
         }
 
         $response = json_decode($response, true);
