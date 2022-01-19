@@ -67,18 +67,6 @@ use OrSdk\Models\Com\Series\{
  */
 class MyAccountingProgram extends Client
 {
-    const HOST      = "http://api.onlineregnskab.test/";
-//    const HOST      = "https://api.onlineregnskab.dk/";
-
-    const USER      = "testbruger";
-//    const USER      = "twl@onlineregnskab.dk";
-
-    const PASS      = "starwars1";
-//    const PASS      = "fSStarwars#4";
-
-    const LEDGER_ID = "101";
-//    const LEDGER_ID = "128";
-
     private $_settings;
 
     /**
@@ -87,9 +75,15 @@ class MyAccountingProgram extends Client
      */
     public function __construct()
     {
-        parent::__construct(self::HOST, self::USER, self::PASS, self::LEDGER_ID);
+        echo "Input DB login:\n";
+        $host       = $this->getUserInput("Host", null, "http://api.onlineregnskab.test/");
+        $user       = $this->getUserInput("User", null, "testbruger");
+        $password   = $this->getUserInput("Password");
+        $ledgersId  = $this->getUserInput("LedgerId", null, "101");
 
-        $this->_settings = new Settings(["id" => 1]);
+        parent::__construct($host, $user, $password, $ledgersId);
+
+        $this->_settings = new Settings();
         $this->modelGet($this->_settings);
     }
 
@@ -104,7 +98,7 @@ class MyAccountingProgram extends Client
             "\t1. Get setting",
             "\t2. Get all documents",
             "\t3. Create new invoice",
-            "\t4. Download all account statements"
+            "\t4. Download account statements"
         ]);
         switch ($cmd)
         {
@@ -116,7 +110,20 @@ class MyAccountingProgram extends Client
             case "2": print_r($this->getDocuments());return;
             case "4":
             {
-                $this->downloadAllAccountStatements();
+                $startDate = $this->getUserInput("Start date", [
+                    "Type the start date in the format yyyy-mm-dd:"
+                ]);
+                $endDate = $this->getUserInput("End date", [
+                    "Type the last date in the format yyyy-mm-dd:"
+                ]);
+                $excludeEmptyAccounts   = $this->getUserInput("Exclude empty accounts", [
+                    "\tYes (get only accounts with balance and/or movements)",
+                    "\tNo (get all accounts. Also accounts without balance and/or movements)"
+                ]);
+                $path   = $this->getUserInput("Download path", [
+                    "Path to download destination"
+                ]);
+                $this->downloadAllAccountStatements($startDate, $endDate, $excludeEmptyAccounts, $path);
                 break;
             }
         }
@@ -125,11 +132,11 @@ class MyAccountingProgram extends Client
     /**
      * @throws ORException
      */
-    private function downloadAllAccountStatements()
+    private function downloadAllAccountStatements($startDate, $endDate, $excludeEmptyAccounts, $path)
     {
         $res = $this->get("ext/reports/balance_sheet", [
-            "entryDate" => "><2021-01-01;2021-12-31",
-            "excludeEmptyAccounts" => "yes"
+            "entryDate" => "><$startDate;$endDate",
+            "excludeEmptyAccounts" => "$excludeEmptyAccounts"
         ]);
         $total = count(array_filter($res["balance_sheet"],function($element) {
             return (
@@ -138,7 +145,7 @@ class MyAccountingProgram extends Client
                 ($element['accountType'] == AccountType::expense)
             );
         }));
-//        $total  = count($res["balance_sheet"]);
+
         $done   = 0;
         echo "Downloading:\n";
 
@@ -150,11 +157,11 @@ class MyAccountingProgram extends Client
                 case AccountType::status:
                 case AccountType::expense:
                 {
-                    $this->progressBar($done++, $total);
                     $fileName = "{$account["accountNumber"]} {$account["name"]}";
-                    $fileName = preg_replace('/[^a-å\d]/i', '_', $fileName) . ".pdf";
+                    $fileName = $path . preg_replace('/[^a-å\d]/i', '_', $fileName) . ".pdf";
+                    $this->progressBar($done++, $total, $fileName);
                     if(!$this->downloadFile("ext/reports/account_statement", [
-                        "entryDate" => "><2021-01-01;2021-12-31",
+                        "entryDate" => "><$startDate;$endDate",
                         "accountsId" => $account["id"],
                         "format" => "pdf",
                         "fileName" => $fileName,
@@ -168,22 +175,23 @@ class MyAccountingProgram extends Client
                 }
             }
         }
-        $this->progressBar($done, $total);
+        $this->progressBar($done, $total, "See: $path");
         echo "\nDone\n";
     }
-    private function progressBar($done, $total) {
+    private function progressBar($done, $total, $name) {
         $perc = floor(($done / $total) * 100);
         $left = 100 - $perc;
-        $write = sprintf("\033[0G\033[2K[%'={$perc}s>%-{$left}s] - $perc%% - $done/$total", "", "");
+        $write = sprintf("\033[0G\033[2K[%'={$perc}s>%-{$left}s] - $perc%% - $done/$total ($name)", "", "");
         fwrite(STDERR, $write);
     }
 
     /**
      * @param string $param
      * @param array|null $description
+     * @param $default
      * @return string
      */
-    private function getUserInput(string $param, array $description=null): string
+    private function getUserInput(string $param, array $description=null, $default=""): string
     {
         if(isset($description))
         {
@@ -197,8 +205,9 @@ class MyAccountingProgram extends Client
             echo str_repeat("#", $sizeOfDescriptionDecorator);
             echo "\n";
         }
-        echo "\n\t$param:\t";
-        return trim(fgets(STDIN));
+        echo "\n\t$param ($default):\t";
+        $userInput = trim(fgets(STDIN));
+        return (empty($userInput)?$default:$userInput);
     }
 
     /**
