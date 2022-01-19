@@ -368,7 +368,7 @@ class Client
         $argStr     = http_build_query((array("token" => $this->_ORApiToken) + ["contactsId" => $customerId, "documentType" => DocumentType::income]));
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => $this->_ORApiHost . "ext/documents",
+            CURLOPT_URL => $this->_ORApiHost . "ext/documents/",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,
@@ -387,7 +387,7 @@ class Client
 
         if($debug)
         {
-            $this->debug("ext/documents", $argStr, "POST", $response, $err, $info);
+            $this->debug("ext/documents/", $argStr, "POST", $response, $err, $info);
         }
 
         $response = json_decode($response, true);
