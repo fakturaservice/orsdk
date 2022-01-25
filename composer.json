@@ -1,0 +1,24 @@
+{
+    "name": "fakturaservice/orsdk",
+    "type": "library",
+    "description": "PHP SDK for OnlineRegnskab.dk API",
+    "keywords": ["onlineregnskab.dk","api","sdk","accounting"],
+    "license": "MIT",
+    "version": "0.0.2",
+    "authors": [
+        {
+            "name": "Torben W Laursen",
+            "email": "twl@fakturaservice.dk",
+            "homepage": "https://onlineregnskab.dk/",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "OrSdk\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=5.6"
+    }
+}
