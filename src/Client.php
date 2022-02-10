@@ -374,7 +374,6 @@ class Client
      * @param $api
      * @param array $arg
      * @param $filePath
-     * @param bool $debug
      * @return false|int
      */
     protected function downloadFile($api, array $arg, $filePath=null)
