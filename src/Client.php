@@ -377,11 +377,14 @@ class Client
      * @param bool $debug
      * @return false|int
      */
-    protected function downloadFile($api, array $arg, $filePath, bool $debug=false)
+    protected function downloadFile($api, array $arg, $filePath=null)
     {
         $argStr     = http_build_query((array("token" => $this->_ORApiToken) + $arg));
         $url        = $this->_ORApiHost . "$api/?$argStr";
-        return file_put_contents($filePath, file_get_contents($url));
+		if(isset($filePath))
+			return file_put_contents($filePath, file_get_contents($url));
+		else
+			return file_get_contents($url);
     }
     /**
      * @param $customerId
