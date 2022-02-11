@@ -34,7 +34,7 @@ abstract class ApiResponseCodes extends BasicEnum
     const SYSTEM_ERROR      = 9;
 
     /*********************** System warnings *********************************/
-    const SYS_WARNING       = 050;
+    const SYS_WARNING       = 50;
 
     const EMAIL_SERVER_NO_RESPONSE  = self::SYS_WARNING + 1;
     const EAN_SERVER_NO_RESPONSE    = self::SYS_WARNING + 2;
@@ -49,8 +49,9 @@ abstract class ApiResponseCodes extends BasicEnum
 
     const EAN_UNINSTALLED                   = self::EAN_ERROR + 1;
     const EAN_WAS_INSTALLED                 = self::EAN_ERROR + 2;
-    const EAN_ENDPOINT_INVALID_LENGTH       = self::EAN_ERROR + 3;
-    const EAN_ENDPOINT_INVALID_CHECK_DIGITS = self::EAN_ERROR + 4;
+    const EAN_XML_INVALID                   = self::EAN_ERROR + 3;
+    const EAN_ENDPOINT_INVALID_LENGTH       = self::EAN_ERROR + 4;
+    const EAN_ENDPOINT_INVALID_CHECK_DIGITS = self::EAN_ERROR + 5;
 
     /*********************** Apps - SMTP (App id: 2) *********************************/
     const REMINDER_ERROR    = self::APP_ERROR + (AppIds::Reminder * 10); // 120
@@ -113,6 +114,7 @@ abstract class ApiResponseCodes extends BasicEnum
             case self::EAN_ERROR:                           return "EAN app error";
             case self::EAN_UNINSTALLED:                     return "EAN app not configured";
             case self::EAN_WAS_INSTALLED:                   return "EAN app was installed";
+            case self::EAN_XML_INVALID:                     return "EAN XML Did not validate";
             case self::EAN_ENDPOINT_INVALID_LENGTH:         return "EAN endpoint address length is not 13";
             case self::EAN_ENDPOINT_INVALID_CHECK_DIGITS:   return "EAN endpoint address control check digits does not compute";
 

@@ -328,6 +328,43 @@ class Client
             throw new ORException($response["message"]);
         return $response;
     }
+
+    /**
+     * @throws ORException
+     */
+    protected function delete($api, array $arg, bool $debug=false)
+    {
+        $curl       = curl_init();
+        $argStr     = http_build_query((array("token" => $this->_ORApiToken) + $arg));
+
+        curl_setopt_array($curl, [
+            CURLOPT_URL => $this->_ORApiHost . "$api/?$argStr",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => false,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "DELETE",
+            CURLINFO_HEADER_OUT => true
+        ]);
+
+        $response   = curl_exec($curl);
+        $err        = curl_error($curl);
+        $info       = curl_getinfo($curl);
+        curl_close($curl);
+
+        if($debug)
+            $this->debug("$api", $argStr, "DELETE", $response, $err, $info);
+
+        $response = json_decode($response, true);
+        if(
+            ($response["error_code"] > ApiResponseCodes::OK) &&
+            ($response["error_code"] < ApiResponseCodes::SYS_WARNING)
+        )
+            throw new ORException($response["message"]);
+        return $response;
+    }
     /**
      * @param $api
      * @param array $arg
