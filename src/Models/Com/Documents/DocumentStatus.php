@@ -9,5 +9,5 @@ abstract class DocumentStatus extends BasicEnum
 {
     const payed   	= 'payed';
     const notPayed	= 'notPayed';
-    const failed  	= 'failed';
+    const pending  	= 'pending';
 }
