@@ -91,7 +91,11 @@ abstract class ApiResponseCodes extends BasicEnum
     const SMTP_CONNECT_FAILURE      = self::SMTP_ERROR + 5;
     const SMTP_EMAIL_NOT_VALID      = self::SMTP_ERROR + 6;
 
-    static public function message($code): string
+    /**
+     * @param $code
+     * @return string
+     */
+    static public function message($code)
     {
         switch ($code)
         {
