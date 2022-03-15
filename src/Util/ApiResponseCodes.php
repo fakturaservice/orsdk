@@ -95,7 +95,7 @@ abstract class ApiResponseCodes extends BasicEnum
      * @param $code
      * @return string
      */
-    static public function message($code)
+    static public function message($code): string
     {
         switch ($code)
         {

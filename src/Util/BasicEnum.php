@@ -56,7 +56,7 @@ abstract class BasicEnum {
      * @return bool
      * @throws ORException
      */
-    public static function hasKey($name, $strict = false)
+    public static function hasKey($name, bool $strict = false): bool
     {
         $constants = self::getConstants();
 
@@ -75,7 +75,7 @@ abstract class BasicEnum {
      * @return bool
      * @throws ORException
      */
-    public static function hasValue($value, $strict = true)
+    public static function hasValue($value, bool $strict = true): bool
     {
         $values = array_values(self::getConstants());
         return in_array($value, $values, $strict);
@@ -85,7 +85,7 @@ abstract class BasicEnum {
      * @return int
      * @throws ORException
      */
-    public static function countConstants()
+    public static function countConstants(): int
     {
         return count(self::getConstants());
     }
@@ -126,7 +126,7 @@ abstract class BasicEnum {
      * @return array
      * @throws ORException
      */
-    public static function getAllKeys()
+    public static function getAllKeys(): array
     {
         $constants = self::getConstants();
         return array_keys($constants);
@@ -138,7 +138,7 @@ abstract class BasicEnum {
      * @return array|mixed
      * @throws ORException
      */
-    public static function getArray($associative = false) {
+    public static function getArray(bool $associative = false) {
         $array = self::getConstants();
         if(!$associative)
             $array = array_values($array);
