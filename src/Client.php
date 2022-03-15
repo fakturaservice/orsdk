@@ -52,7 +52,7 @@ class Client
      * @return mixed
      * @throws ORException
      */
-    protected function modelPost(BaseModels &$mod, bool $debug=false)
+    protected function modelPost(BaseModels &$mod, $debug=false)
     {
         $args       = array_filter($mod->getValues(true, 0, null, ["id"]));
         $curl       = curl_init();
@@ -94,7 +94,7 @@ class Client
      * @return mixed
      * @throws ORException
      */
-    protected function modelGet(BaseModels &$mod, bool $debug=false)
+    protected function modelGet(BaseModels &$mod, $debug=false)
     {
         $curl       = curl_init();
         $argStr     = http_build_query((array("token" => $this->_ORApiToken) + $mod->getValues(true)));
@@ -135,7 +135,7 @@ class Client
      * @return mixed
      * @throws ORException
      */
-    protected function modelPut(BaseModels $mod, bool $debug=false)
+    protected function modelPut(BaseModels $mod, $debug=false)
     {
         $curl       = curl_init();
         $argStr     = http_build_query(array("token" => $this->_ORApiToken) + $mod->getValues(true));
@@ -174,7 +174,7 @@ class Client
      * @return mixed
      * @throws ORException
      */
-    protected function modelDelete(BaseModels $mod, bool $debug=false)
+    protected function modelDelete(BaseModels $mod, $debug=false)
     {
         $curl       = curl_init();
         $argStr     = http_build_query(array("token" => $this->_ORApiToken) + $mod->getValues(true));
@@ -214,7 +214,7 @@ class Client
      * @return mixed
      * @throws ORException
      */
-    protected function book($documentId, bool $dryRun=true, bool $debug=false)
+    protected function book($documentId, $dryRun=true, $debug=false)
     {
         $curl       = curl_init();
         $argStr     = http_build_query((array("token" => $this->_ORApiToken) + ["id" => $documentId]));
@@ -255,7 +255,7 @@ class Client
      * @return mixed
      * @throws ORException
      */
-    protected function get($api, array $arg, bool $debug=false)
+    protected function get($api, array $arg, $debug=false)
     {
         $curl       = curl_init();
         $argStr     = http_build_query((array("token" => $this->_ORApiToken) + $arg));
@@ -295,7 +295,7 @@ class Client
      * @return mixed
      * @throws ORException
      */
-    protected function put($api, array $arg, bool $debug=false)
+    protected function put($api, array $arg, $debug=false)
     {
         $curl       = curl_init();
         $argStr     = http_build_query((array("token" => $this->_ORApiToken) + $arg));
@@ -332,7 +332,7 @@ class Client
     /**
      * @throws ORException
      */
-    protected function delete($api, array $arg, bool $debug=false)
+    protected function delete($api, array $arg, $debug=false)
     {
         $curl       = curl_init();
         $argStr     = http_build_query((array("token" => $this->_ORApiToken) + $arg));
@@ -372,7 +372,7 @@ class Client
      * @return mixed
      * @throws ORException
      */
-    protected function post($api, array $arg, bool $debug=false)
+    protected function post($api, array $arg, $debug=false)
     {
         $curl       = curl_init();
         $argStr     = http_build_query((array("token" => $this->_ORApiToken) + $arg));
@@ -428,7 +428,7 @@ class Client
      * @return mixed
      * @throws ORException
      */
-    protected function creatDraftInvoice($customerId, bool $debug=false)
+    protected function creatDraftInvoice($customerId, $debug=false)
     {
         $curl       = curl_init();
         $argStr     = http_build_query((array("token" => $this->_ORApiToken) + ["contactsId" => $customerId, "documentType" => DocumentType::income]));
@@ -467,7 +467,7 @@ class Client
     /**
      * @throws ORException
      */
-    private function login($userName, $password, $ledgersId, bool $debug=false)
+    private function login($userName, $password, $ledgersId, $debug=false)
     {
         $curl       = curl_init();
         curl_setopt_array($curl, array(

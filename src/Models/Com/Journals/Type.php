@@ -9,6 +9,7 @@ abstract class Type extends BasicEnum
 {
     const standard   	= 'standard';
     const import     	= 'import';
-    const backconnect	= 'backconnect';
+    const bankconnect	= 'bankconnect';
     const bankfile   	= 'bankfile';
+    const danlon        = 'danlon';
 }
