@@ -126,7 +126,7 @@ abstract class BasicEnum {
      * @return array
      * @throws ORException
      */
-    public static function getAllKeys(): array
+    public static function getAllKeys()
     {
         $constants = self::getConstants();
         return array_keys($constants);
