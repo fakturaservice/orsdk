@@ -40,6 +40,7 @@ class Entries extends BaseModels
     public $unit;
     public $dueDate;
     public $entryType;
+    public $counterEntryId;
     public $prime;
     public $status;
     public $vatJournalId;

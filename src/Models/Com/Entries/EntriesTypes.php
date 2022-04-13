@@ -27,6 +27,7 @@ class EntriesTypes extends BasicEnum
     const unit            	= dataType::VARCHAR;
     const dueDate         	= dataType::DATE;
     const entryType       	= dataType::ENUM;
+    const counterEntryId  	= dataType::INT;
     const prime           	= dataType::ENUM;
     const status          	= dataType::ENUM;
     const vatJournalId    	= dataType::INT;
