@@ -5,7 +5,7 @@
  * Proprietary and confidential
  * Written by Torben Wrang Laursen <twl@fakturaservice.dk>, February 2021
  *
- * ########## HESTEPIK ############
+ * 
  */
 
 /**
