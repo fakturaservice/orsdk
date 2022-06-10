@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2021. Fakturaservice A/S - All Rights Reserved 
+ * Copyright (c) 2021. Fakturaservice A/S - All Rights Reserved
  * Unauthorized copying of this file, via any medium is strictly prohibited.
  * Proprietary and confidential
  * Written by Torben Wrang Laursen <twl@fakturaservice.dk>, February 2021
@@ -15,6 +15,7 @@
 
 namespace OrSdk;
 
+use CURLFile;
 use OrSdk\Models\BaseModels;
 use OrSdk\Models\Com\Documents\DocumentType;
 use OrSdk\Util\ApiResponseCodes;
@@ -384,21 +385,46 @@ class Client
      */
     protected function post($api, array $arg, bool $debug=false)
     {
-        $curl       = curl_init();
-        $argStr     = http_build_query((array("token" => $this->_ORApiToken) + $arg));
+        $curl           = curl_init();
+        $arg["token"]   = $this->_ORApiToken;
 
-        curl_setopt_array($curl, [
-            CURLOPT_URL => $this->_ORApiHost . "$api/",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => false,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => $argStr,
-            CURLINFO_HEADER_OUT => true
-        ]);
+        if(in_array("file", array_keys($arg)))
+        {
+            $dataSize       = strlen(file_get_contents($arg["file"]));
+            $arg["file"]    = $this->getCurlFile($arg["file"]);
+
+            curl_setopt_array($curl, [
+                CURLOPT_URL => $this->_ORApiHost . "$api/",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => "",
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => false,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "POST",
+                CURLOPT_POST => true,
+                CURLOPT_POSTFIELDS => $arg,
+                CURLOPT_HTTPHEADER => [
+                    "Content-Type" => "multipart/form-data",
+                    "Content-Length" =>  $dataSize
+                ]
+            ]);
+        }
+        else
+        {
+            curl_setopt_array($curl, [
+                CURLOPT_URL => $this->_ORApiHost . "$api/",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => "",
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => false,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "POST",
+                CURLOPT_POSTFIELDS => $arg,
+                CURLINFO_HEADER_OUT => true
+            ]);
+        }
 
         $response   = curl_exec($curl);
         $err        = curl_error($curl);
@@ -406,7 +432,7 @@ class Client
         curl_close($curl);
 
         if($debug)
-            $this->debug("$api", $argStr, "POST", $response, $err, $info);
+            $this->debug("$api", $arg, "POST", $response, $err, $info);
 
         $response = json_decode($response, true);
         if(
@@ -427,10 +453,10 @@ class Client
     {
         $argStr     = http_build_query((array("token" => $this->_ORApiToken) + $arg));
         $url        = $this->_ORApiHost . "$api/?$argStr";
-		if(isset($filePath))
-			return file_put_contents($filePath, file_get_contents($url));
-		else
-			return file_get_contents($url);
+        if(isset($filePath))
+            return file_put_contents($filePath, file_get_contents($url));
+        else
+            return file_get_contents($url);
     }
 
     /**
@@ -474,6 +500,14 @@ class Client
         )
             throw new ORException($response["message"]);
         return $response;
+    }
+
+    private function getCurlFile($path): CURLFile
+    {
+        $mime   = mime_content_type($path);
+        $info   = pathinfo($path);
+        $name   = $info['basename'];
+        return curl_file_create($path, $mime, $name);
     }
 
     /**
