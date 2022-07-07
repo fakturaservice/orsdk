@@ -5,7 +5,7 @@
  * Proprietary and confidential
  * Written by Torben Wrang Laursen <twl@fakturaservice.dk>, February 2021
  *
- * 
+ *
  */
 
 /**
@@ -57,7 +57,7 @@ class Client
      */
     protected function modelPost(BaseModels &$mod, bool $debug=false)
     {
-        $args       = array_filter($mod->getValues(true, 0, null, ["id"]));
+        $args       = array_filter($mod->getValues(true, 0, null, ["id"]), "strlen");
         $curl       = curl_init();
         $argStr     = (isset($this->_ORApiToken))?(array("token" => $this->_ORApiToken) + $args):$args;
         curl_setopt_array($curl, array(
