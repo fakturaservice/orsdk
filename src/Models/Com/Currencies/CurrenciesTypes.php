@@ -7,8 +7,8 @@ use OrSdk\Util\dataType;
 
 class CurrenciesTypes extends BasicEnum
 {
-    const currencyCode        	= dataType::VARCHAR;
-    const currencyExchangeRate	= dataType::DECIMAL;
-    const currencyName        	= dataType::VARCHAR;
     const id                  	= dataType::INT;
+    const currencyCode        	= dataType::VARCHAR;
+    const currencyName        	= dataType::VARCHAR;
+    const currencyExchangeRate	= dataType::DECIMAL;
 }
