@@ -22,7 +22,8 @@ use OrSdk\Models\BaseModels;
 class Currencies extends BaseModels
 {
     public $id;
-    public $currencyCode;
-    public $currencyName;
-    public $currencyExchangeRate;
+    public $code;
+    public $name;
+    public $rate;
+    public $updateTime;
 }
