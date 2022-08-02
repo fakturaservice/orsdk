@@ -6,6 +6,6 @@ use OrSdk\Util\BasicEnum;
 
 abstract class LanguageIso extends BasicEnum
 {
-    const da	= 'da';
-    const no	= 'no';
+    const DA	= 'DA';
+    const EN	= 'EN';
 }
