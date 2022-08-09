@@ -302,7 +302,7 @@ class MyAccountingProgram extends Client
         $ent->entryDate         = $today->format("Y-m-d");
         $ent->amount            = $itm->price * -1;
         $ent->amountCurrency    = $itm->price * -1;
-        $ent->currencyIso       = CurrencyIso::dkk;
+        $ent->currencyIso       = CurrencyIso::DKK;
         $ent->currencyRate      = "100";
 //        $ent->voucherNo         = $this->formatSeries($ser);
         $ent->accountsId        = $itm->accountsId;
@@ -324,7 +324,7 @@ class MyAccountingProgram extends Client
         $ent->entryDate         = $today->format("Y-m-d");
         $ent->amount            = $itm->price * $vat->rate * -1;
         $ent->amountCurrency    = $itm->price * $vat->rate * -1;
-        $ent->currencyIso       = CurrencyIso::dkk;
+        $ent->currencyIso       = CurrencyIso::DKK;
         $ent->currencyRate      = "100";
 //        $ent->voucherNo         = $this->formatSeries($ser);
         $ent->accountsId        = $this->_settings->vatSales;
@@ -342,7 +342,7 @@ class MyAccountingProgram extends Client
         $ent->entryDate         = $today->format("Y-m-d");
         $ent->amount            = $itm->price * ($vat->rate + 1);
         $ent->amountCurrency    = $itm->price * ($vat->rate + 1);
-        $ent->currencyIso       = CurrencyIso::dkk;
+        $ent->currencyIso       = CurrencyIso::DKK;
         $ent->currencyRate      = "100";
 //        $ent->voucherNo         = $this->formatSeries($ser);
         $ent->accountsId        = $this->_settings->debtorAccountsId;
