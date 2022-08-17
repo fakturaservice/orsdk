@@ -389,6 +389,7 @@ class Client
     {
         $curl           = curl_init();
         $arg["token"]   = $this->_ORApiToken;
+        unset($arg["id"]);
 
         if(in_array("file", array_keys($arg)))
         {
