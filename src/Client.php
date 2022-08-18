@@ -306,6 +306,7 @@ class Client
     protected function put($api, array $arg, bool $debug=false)
     {
         $curl       = curl_init();
+        $arg        = array_filter($arg, "strlen");
         $argStr     = http_build_query((array("token" => $this->_ORApiToken) + $arg));
 
         curl_setopt_array($curl, [
