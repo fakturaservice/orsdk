@@ -274,7 +274,7 @@ class MyAccountingProgram extends Client
         $doc->paymentDate                  = $dueDate->format("Y-m-d");
         $doc->dispatchMethod               = DispatchMethod::email;
         $doc->paymentMethod                = $this->_settings->defaultBankAccountsId;
-        $doc->contactsId                   = $con->id;
+//        $doc->contactsId                   = $con->id;
         $doc->dueDateMethod                = DueDateMethod::net;
         $doc->senderName                   = $this->_settings->name;
         $doc->senderAdd1                   = $this->_settings->add1;
