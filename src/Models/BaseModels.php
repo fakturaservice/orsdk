@@ -167,7 +167,7 @@ abstract class BaseModels
         switch($type)
         {
             case dataType::INT:
-            case dataType::TINYINT:    return "".(int)round($val);
+            case dataType::TINYINT:    return preg_replace('/\D/', '', $val);
 
             case dataType::TINYTEXT:
             case dataType::VARCHAR:
