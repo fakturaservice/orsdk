@@ -52,4 +52,5 @@ class SettingsTypes extends BasicEnum
     const reportOrderDirection                	= dataType::ENUM;
     const reportAmountDisplay                 	= dataType::ENUM;
     const interestFeeAccountId                	= dataType::INT;
+    const eDeliveryNotice                     	= dataType::ENUM;
 }

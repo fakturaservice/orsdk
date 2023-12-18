@@ -36,4 +36,5 @@ class Accounts extends BaseModels
     public $bankGiroType;
     public $bankGiroCreditorNo;
     public $bankAccount;
+    public $comment;
 }

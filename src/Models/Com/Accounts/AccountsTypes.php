@@ -23,4 +23,5 @@ abstract class AccountsTypes extends BasicEnum
     const bankGiroType      	= dataType::ENUM;
     const bankGiroCreditorNo	= dataType::VARCHAR;
     const bankAccount       	= dataType::ENUM;
+    const comment           	= dataType::TEXT;
 }

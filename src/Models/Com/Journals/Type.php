@@ -7,8 +7,10 @@ use OrSdk\Util\BasicEnum;
 
 abstract class Type extends BasicEnum
 {
-    const standard   	= 'standard';
-    const import     	= 'import';
-    const backconnect	= 'backconnect';
-    const bankfile   	= 'bankfile';
+    const standard       	= 'standard';
+    const import         	= 'import';
+    const bankconnect    	= 'bankconnect';
+    const bankfile       	= 'bankfile';
+    const bankfileDivided	= 'bankfileDivided';
+    const salary         	= 'salary';
 }

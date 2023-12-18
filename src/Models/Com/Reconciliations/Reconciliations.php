@@ -22,8 +22,7 @@ use OrSdk\Models\BaseModels;
 class Reconciliations extends BaseModels
 {
     public $id;
-    public $documentsId;
+    public $reconciliationsKey;
+    public $entriesId;
     public $amount;
-    public $contraDocumentsId;
-    public $entryDate;
 }

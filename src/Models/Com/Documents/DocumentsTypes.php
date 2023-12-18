@@ -9,6 +9,7 @@ use OrSdk\Util\dataType;
 class DocumentsTypes extends BasicEnum
 {
     const id                       	= dataType::INT;
+    const parrentDocumentId        	= dataType::INT;
     const documentType             	= dataType::ENUM;
     const name                     	= dataType::VARCHAR;
     const dataHtml                 	= dataType::LONGBLOB;
@@ -25,6 +26,7 @@ class DocumentsTypes extends BasicEnum
     const deliveryDate             	= dataType::DATE;
     const paymentMethod            	= dataType::INT;
     const dispatchMethod           	= dataType::ENUM;
+    const dispatchStatus           	= dataType::ENUM;
     const endpoint                 	= dataType::VARCHAR;
     const contactsId               	= dataType::INT;
     const currency                 	= dataType::VARCHAR;

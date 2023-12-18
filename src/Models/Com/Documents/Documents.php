@@ -25,6 +25,7 @@ use OrSdk\Models\BaseModels;
 class Documents extends BaseModels
 {
     public $id;
+    public $parrentDocumentId;
     public $documentType;
     public $name;
     public $dataHtml;
@@ -41,6 +42,7 @@ class Documents extends BaseModels
     public $deliveryDate;
     public $paymentMethod;
     public $dispatchMethod;
+    public $dispatchStatus;
     public $endpoint;
     public $contactsId;
     public $currency;

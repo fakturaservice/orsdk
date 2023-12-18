@@ -8,9 +8,8 @@ use OrSdk\Util\dataType;
 
 class ReconciliationsTypes extends BasicEnum
 {
-    const id               	= dataType::INT;
-    const documentsId      	= dataType::INT;
-    const amount           	= dataType::DECIMAL;
-    const contraDocumentsId	= dataType::INT;
-    const entryDate        	= dataType::DATE;
+    const id                	= dataType::INT;
+    const reconciliationsKey	= dataType::INT;
+    const entriesId         	= dataType::INT;
+    const amount            	= dataType::DECIMAL;
 }

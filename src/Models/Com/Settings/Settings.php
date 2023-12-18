@@ -64,4 +64,5 @@ class Settings extends BaseModels
     public $reportOrderDirection;
     public $reportAmountDisplay;
     public $interestFeeAccountId;
+    public $eDeliveryNotice;
 }
