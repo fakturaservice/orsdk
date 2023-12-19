@@ -27,18 +27,18 @@ use OrSdk\Util\ORException;
  */
 class Client
 {
-    private $_ORApiHost;
+    private string $_ORApiHost;
     private $_ORApiToken;
 
     /**
      * Client constructor.
-     * @param $host
-     * @param $userName
-     * @param $password
-     * @param $ledgersId
+     * @param string $host
+     * @param string $userName
+     * @param string $password
+     * @param int $ledgersId
      * @throws ORException
      */
-    public function __construct($host, $userName, $password, $ledgersId)
+    public function __construct(string $host, string $userName, string $password, int $ledgersId)
     {
         $this->_ORApiHost   = $host;
         $this->_ORApiToken  = $this->login($userName, $password, $ledgersId);
@@ -249,13 +249,13 @@ class Client
     }
 
     /**
-     * @param $api
+     * @param string $api
      * @param array $arg
      * @param bool $debug
      * @return mixed
      * @throws ORException
      */
-    protected function get($api, array $arg, bool $debug=false)
+    protected function get(string $api, array $arg, bool $debug=false)
     {
         $curl       = curl_init();
         $argStr     = http_build_query((array("token" => $this->_ORApiToken) + $arg));
@@ -288,14 +288,15 @@ class Client
             throw new ORException($response["message"]);
         return $response;
     }
+
     /**
-     * @param $api
+     * @param string $api
      * @param array $arg
      * @param bool $debug
      * @return mixed
      * @throws ORException
      */
-    protected function put($api, array $arg, bool $debug=false)
+    protected function put(string $api, array $arg, bool $debug=false)
     {
         $curl       = curl_init();
         $argStr     = http_build_query((array("token" => $this->_ORApiToken) + $arg));
@@ -328,6 +329,7 @@ class Client
             throw new ORException($response["message"]);
         return $response;
     }
+
     /**
      * @param $api
      * @param array $arg
@@ -335,7 +337,48 @@ class Client
      * @return mixed
      * @throws ORException
      */
-    protected function post($api, array $arg, bool $debug=false)
+    protected function delete($api, array $arg, bool $debug=false)
+    {
+        $curl       = curl_init();
+        $argStr     = http_build_query((array("token" => $this->_ORApiToken) + $arg));
+
+        curl_setopt_array($curl, [
+            CURLOPT_URL => $this->_ORApiHost . "$api/?$argStr",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => false,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "DELETE",
+            CURLINFO_HEADER_OUT => true
+        ]);
+
+        $response   = curl_exec($curl);
+        $err        = curl_error($curl);
+        $info       = curl_getinfo($curl);
+        curl_close($curl);
+
+        if($debug)
+            $this->debug("$api", $argStr, "DELETE", $response, $err, $info);
+
+        $response = json_decode($response, true);
+        if(
+            ($response["error_code"] > ApiResponseCodes::OK) &&
+            ($response["error_code"] < ApiResponseCodes::SYS_WARNING)
+        )
+            throw new ORException($response["message"]);
+        return $response;
+    }
+
+    /**
+     * @param string $api
+     * @param array $arg
+     * @param bool $debug
+     * @return mixed
+     * @throws ORException
+     */
+    protected function post(string $api, array $arg, bool $debug=false)
     {
         $curl       = curl_init();
         $argStr     = http_build_query((array("token" => $this->_ORApiToken) + $arg));
@@ -371,13 +414,13 @@ class Client
     }
 
     /**
-     * @param $api
+     * @param string $api
      * @param array $arg
-     * @param $filePath
+     * @param null $filePath
      * @param bool $debug
      * @return false|int
      */
-    protected function downloadFile($api, array $arg, $filePath=null, bool $debug=false)
+    protected function downloadFile(string $api, array $arg, $filePath=null, bool $debug=false)
     {
         $argStr     = http_build_query((array("token" => $this->_ORApiToken) + $arg));
         $url        = $this->_ORApiHost . "$api/?$argStr";
@@ -429,9 +472,14 @@ class Client
         return $response;
     }
     /**
+     * @param string $userName
+     * @param string $password
+     * @param int $ledgersId
+     * @param bool $debug
+     * @return mixed
      * @throws ORException
      */
-    private function login($userName, $password, $ledgersId, bool $debug=false)
+    private function login(string $userName, string $password, int $ledgersId, bool $debug=false)
     {
         $curl       = curl_init();
         curl_setopt_array($curl, array(
@@ -470,14 +518,14 @@ class Client
 
 
     /**
-     * @param $api
+     * @param string $api
      * @param $argStr
-     * @param $restCmd
+     * @param string $restCmd
      * @param $response
      * @param $err
-     * @param $info
+     * @param null $info
      */
-    private function debug($api, $argStr, $restCmd, $response, $err, $info=null)
+    private function debug(string $api, $argStr, string $restCmd, $response, $err, $info=null)
     {
         if($err)
         {

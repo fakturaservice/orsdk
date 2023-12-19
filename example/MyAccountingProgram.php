@@ -67,7 +67,7 @@ use OrSdk\Models\Com\Series\{
  */
 class MyAccountingProgram extends Client
 {
-    private $_settings;
+    private Settings $_settings;
 
     /**
      * MyAccountingProgram constructor.
@@ -179,19 +179,19 @@ class MyAccountingProgram extends Client
         echo "\nDone\n";
     }
     private function progressBar($done, $total, $name) {
-        $perc = floor(($done / $total) * 100);
-        $left = 100 - $perc;
-        $write = sprintf("\033[0G\033[2K[%'={$perc}s>%-{$left}s] - $perc%% - $done/$total ($name)", "", "");
+        $percent    = floor(($done / $total) * 100);
+        $left       = 100 - $percent;
+        $write      = sprintf("\033[0G\033[2K[%'={$percent}s>%-{$left}s] - $percent%% - $done/$total ($name)", "", "");
         fwrite(STDERR, $write);
     }
 
     /**
      * @param string $param
      * @param array|null $description
-     * @param $default
+     * @param string $default
      * @return string
      */
-    private function getUserInput(string $param, array $description=null, $default=""): string
+    private function getUserInput(string $param, array $description=null, string $default=""): string
     {
         if(isset($description))
         {
@@ -302,7 +302,7 @@ class MyAccountingProgram extends Client
         $ent->entryDate         = $today->format("Y-m-d");
         $ent->amount            = $itm->price * -1;
         $ent->amountCurrency    = $itm->price * -1;
-        $ent->currencyIso       = CurrencyIso::dkk;
+        $ent->currencyIso       = CurrencyIso::DKK;
         $ent->currencyRate      = "100";
 //        $ent->voucherNo         = $this->formatSeries($ser);
         $ent->accountsId        = $itm->accountsId;
@@ -324,7 +324,7 @@ class MyAccountingProgram extends Client
         $ent->entryDate         = $today->format("Y-m-d");
         $ent->amount            = $itm->price * $vat->rate * -1;
         $ent->amountCurrency    = $itm->price * $vat->rate * -1;
-        $ent->currencyIso       = CurrencyIso::dkk;
+        $ent->currencyIso       = CurrencyIso::DKK;
         $ent->currencyRate      = "100";
 //        $ent->voucherNo         = $this->formatSeries($ser);
         $ent->accountsId        = $this->_settings->vatSales;
@@ -342,7 +342,7 @@ class MyAccountingProgram extends Client
         $ent->entryDate         = $today->format("Y-m-d");
         $ent->amount            = $itm->price * ($vat->rate + 1);
         $ent->amountCurrency    = $itm->price * ($vat->rate + 1);
-        $ent->currencyIso       = CurrencyIso::dkk;
+        $ent->currencyIso       = CurrencyIso::DKK;
         $ent->currencyRate      = "100";
 //        $ent->voucherNo         = $this->formatSeries($ser);
         $ent->accountsId        = $this->_settings->debtorAccountsId;
