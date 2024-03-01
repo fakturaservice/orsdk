@@ -291,8 +291,7 @@ class Client
             header("Content-Type: {$info["content_type"]}");
             return $response;
         }
-
-        if(isset($response["error_code"]))
+        
         $response = json_decode($response, true);
         if(
             ($response["error_code"] > ApiResponseCodes::OK) &&
