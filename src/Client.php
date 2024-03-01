@@ -119,7 +119,7 @@ class Client
         if($debug)
             $this->debug($mod->getApiName(true), $argStr, "GET", $response, $err, $info);
 
-        if(!str_contains($info["content_type"], "application/json"))
+        if($info["content_type"] != "application/json;charset=utf-8")
         {
             header("Content-Type: {$info["content_type"]}");
             return $response;
@@ -286,7 +286,7 @@ class Client
         if($debug)
             $this->debug("$api", $argStr, "GET", $response, $err, $info);
 
-        if(!str_contains($info["content_type"], "application/json"))
+        if($info["content_type"] != "application/json;charset=utf-8")
         {
             header("Content-Type: {$info["content_type"]}");
             return $response;
