@@ -38,12 +38,27 @@ class Client
      * @param int $ledgersId
      * @throws ORException
      */
-    public function __construct(string $host, string $userName, string $password, int $ledgersId)
+    public function __construct(string $host, string $userName, string $password, int $ledgersId, string $token = null)
     {
         $this->_ORApiHost   = $host;
-        $this->_ORApiToken  = $this->login($userName, $password, $ledgersId);
-        if(!$this->_ORApiToken)
-            throw new ORException("Access denied", ORException::CH_PERMISSION);
+        $this->_ORApiToken  = $token;
+        if(isset($this->_ORApiToken))
+        {
+            try{
+                $this->put("acc/token", ["ledgersId" => $ledgersId]);
+            }catch (ORException $e){
+                if(ApiResponseCodes::INVALID_ARGUMENTS == $e->getCode())
+                {
+                    $this->_ORApiToken  = $this->login($userName, $password, $ledgersId);
+                }
+            }
+        }
+        else
+        {
+            $this->_ORApiToken  = $this->login($userName, $password, $ledgersId);
+            if(!$this->_ORApiToken)
+                throw new ORException("Access denied", ORException::CH_PERMISSION);
+        }
     }
 
     /**
