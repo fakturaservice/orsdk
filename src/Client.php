@@ -27,8 +27,10 @@ use OrSdk\Util\ORException;
  */
 class Client
 {
+    const TOKEN_PATTERN = "/^\d{1,6}_\d{1,6};[BERT][AG](ST|AC|AP|SU|DE)[a-zA-Z0-9]+;[a-zA-Z0-9.-]+\.(onlineregnskab\.dk|onlineregnskab\.test)$/";
     private string $_ORApiHost;
-    private $_ORApiToken;
+    private string $_ORApiToken;
+    private bool $_ORApiTokenRenewed;
 
     /**
      * Client constructor.
@@ -36,30 +38,70 @@ class Client
      * @param string $userName
      * @param string $password
      * @param int $ledgersId
+     * @param string|null $token
      * @throws ORException
      */
     public function __construct(string $host, string $userName, string $password, int $ledgersId, string $token = null)
     {
-        $this->_ORApiHost   = $host;
-        $this->_ORApiToken  = $token;
-        if(isset($this->_ORApiToken))
+        $this->_ORApiHost           = $host;
+        $this->_ORApiTokenRenewed   = false;
+        if(isset($token))
         {
-            try{
-                $this->put("acc/token", ["ledgersId" => $ledgersId]);
-            }catch (ORException $e){
-                if(ApiResponseCodes::INVALID_ARGUMENTS == $e->getCode())
-                {
-                    $this->_ORApiToken  = $this->login($userName, $password, $ledgersId);
-                }
-            }
+            $this->_ORApiToken          = $token;
+            if(!$this->challengeToken($ledgersId))
+                $this->_ORApiTokenRenewed   = $this->renewToken($userName, $password, $ledgersId);
         }
         else
-        {
-            $this->_ORApiToken  = $this->login($userName, $password, $ledgersId);
-            if(!$this->_ORApiToken)
-                throw new ORException("Access denied", ORException::CH_PERMISSION);
-        }
+            $this->_ORApiTokenRenewed   = $this->renewToken($userName, $password, $ledgersId);
     }
+
+    /**
+     * @param $ledgersId
+     * @return bool
+     */
+    private function challengeToken($ledgersId): bool
+    {
+        try{
+            $this->put("acc/token", ["ledgersId" => $ledgersId]);
+        }catch (ORException $e){
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * @param string $userName
+     * @param string $password
+     * @param int $ledgersId
+     * @return bool
+     * @throws ORException
+     */
+    protected function renewToken(string $userName, string $password, int $ledgersId): bool
+    {
+        $this->_ORApiToken = $this->login($userName, $password, $ledgersId);
+        if(preg_match(self::TOKEN_PATTERN, $this->_ORApiToken))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isTokenRenewed(): bool
+    {
+        return $this->_ORApiTokenRenewed;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getRenewedToken(): string
+    {
+        return $this->_ORApiToken;
+    }
+
 
     /**
      * @param BaseModels $mod
@@ -595,4 +637,6 @@ class Client
 
         }
     }
+
+
 }
