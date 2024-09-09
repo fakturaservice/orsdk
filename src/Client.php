@@ -48,7 +48,7 @@ class Client
         if(isset($token))
         {
             $this->_ORApiToken          = $token;
-            if(!$this->challengeToken($ledgersId))
+            if(!$this->challengeToken())
                 $this->_ORApiTokenRenewed   = $this->renewToken($userName, $password, $ledgersId);
         }
         else
@@ -56,13 +56,12 @@ class Client
     }
 
     /**
-     * @param $ledgersId
      * @return bool
      */
-    private function challengeToken($ledgersId): bool
+    private function challengeToken(): bool
     {
         try{
-            $this->put("acc/token", ["ledgersId" => $ledgersId]);
+            $this->get("com/settings", ["id" => 1]);
         }catch (ORException $e){
             return false;
         }
