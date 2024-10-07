@@ -24,6 +24,7 @@ class Periods extends BaseModels
     public $id;
     public $periodStart;
     public $periodEnd;
+    public $partialPeriodLock;
     public $state;
     public $vatInterval;
     public $financeVoucherNo;

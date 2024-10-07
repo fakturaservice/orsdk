@@ -11,6 +11,7 @@ class PeriodsTypes extends BasicEnum
     const id                     	= dataType::INT;
     const periodStart            	= dataType::DATE;
     const periodEnd              	= dataType::DATE;
+    const partialPeriodLock      	= dataType::DATE;
     const state                  	= dataType::ENUM;
     const vatInterval            	= dataType::ENUM;
     const financeVoucherNo       	= dataType::INT;

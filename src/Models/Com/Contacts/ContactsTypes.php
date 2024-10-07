@@ -29,4 +29,5 @@ class ContactsTypes extends BasicEnum
     const customerType         	= dataType::ENUM;
     const customerIdentify     	= dataType::VARCHAR;
     const contactType          	= dataType::ENUM;
+    const contactGroups        	= dataType::INT;
 }

@@ -26,6 +26,7 @@ class Accounts extends BaseModels
     public $vat_codesId;
     public $accountType;
     public $sumFrom;
+    public $sumFromIntervals;
     public $contraAccountsId;
     public $active;
     public $bankName;

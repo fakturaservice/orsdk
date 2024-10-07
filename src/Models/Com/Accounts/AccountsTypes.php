@@ -13,6 +13,7 @@ abstract class AccountsTypes extends BasicEnum
     const vat_codesId       	= dataType::INT;
     const accountType       	= dataType::ENUM;
     const sumFrom           	= dataType::INT;
+    const sumFromIntervals      = dataType::VARCHAR;
     const contraAccountsId  	= dataType::INT;
     const active            	= dataType::ENUM;
     const bankName          	= dataType::VARCHAR;

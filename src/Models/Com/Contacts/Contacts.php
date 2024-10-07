@@ -42,4 +42,5 @@ class Contacts extends BaseModels
     public $customerType;
     public $customerIdentify;
     public $contactType;
+    public $contactGroups;
 }

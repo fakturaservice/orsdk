@@ -53,4 +53,5 @@ class SettingsTypes extends BasicEnum
     const reportAmountDisplay                 	= dataType::ENUM;
     const interestFeeAccountId                	= dataType::INT;
     const eDeliveryNotice                     	= dataType::ENUM;
+    const customHtmlHead                        = dataType::MEDIUMTEXT;
 }
