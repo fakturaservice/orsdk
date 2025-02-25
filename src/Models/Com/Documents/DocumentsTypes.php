@@ -27,6 +27,7 @@ class DocumentsTypes extends BasicEnum
     const paymentMethod            	= dataType::INT;
     const dispatchMethod           	= dataType::ENUM;
     const dispatchStatus           	= dataType::ENUM;
+    const endpointType              = dataType::CHAR;
     const endpoint                 	= dataType::VARCHAR;
     const contactsId               	= dataType::INT;
     const currency                 	= dataType::VARCHAR;

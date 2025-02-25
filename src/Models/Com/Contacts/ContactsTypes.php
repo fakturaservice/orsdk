@@ -19,7 +19,7 @@ class ContactsTypes extends BasicEnum
     const languageIso          	= dataType::ENUM;
     const mail                 	= dataType::VARCHAR;
     const contactName          	= dataType::VARCHAR;
-    const endpointType         	= dataType::ENUM;
+    const endpointType         	= dataType::CHAR;
     const endpoint             	= dataType::VARCHAR;
     const mobile               	= dataType::VARCHAR;
     const currencyIso          	= dataType::ENUM;

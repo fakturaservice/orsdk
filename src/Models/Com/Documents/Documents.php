@@ -43,6 +43,7 @@ class Documents extends BaseModels
     public $paymentMethod;
     public $dispatchMethod;
     public $dispatchStatus;
+    public $endpointType;
     public $endpoint;
     public $contactsId;
     public $currency;

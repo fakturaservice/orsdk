@@ -4,7 +4,7 @@
     "description": "PHP SDK for OnlineRegnskab.dk API",
     "keywords": ["onlineregnskab.dk","api","sdk","accounting"],
     "license": "MIT",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "authors": [
         {
             "name": "Torben W Laursen",
