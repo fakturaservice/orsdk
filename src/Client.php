@@ -17,8 +17,6 @@ namespace OrSdk;
 
 use OrSdk\Models\BaseModels;
 use OrSdk\Models\Com\Documents\DocumentType;
-use OrSdk\Util\ApiResponseCodes;
-use OrSdk\Util\ORException;
 
 
 /**
@@ -39,7 +37,6 @@ class Client
      * @param string $password
      * @param int $ledgersId
      * @param string|null $token
-     * @throws ORException
      */
     public function __construct(string $host, string $userName, string $password, int $ledgersId, string $token = null)
     {
@@ -60,12 +57,8 @@ class Client
      */
     private function challengeToken(): bool
     {
-        try{
-            $this->get("com/settings", ["id" => 1]);
-        }catch (ORException $e){
-            return false;
-        }
-        return true;
+        $res = $this->get("com/settings", ["id" => 1]);
+        return (bool)$res["result"];
     }
 
     /**
@@ -73,7 +66,6 @@ class Client
      * @param string $password
      * @param int $ledgersId
      * @return bool
-     * @throws ORException
      */
     protected function renewToken(string $userName, string $password, int $ledgersId): bool
     {
@@ -106,7 +98,6 @@ class Client
      * @param BaseModels $mod
      * @param bool $debug
      * @return mixed
-     * @throws ORException
      */
     protected function modelPost(BaseModels &$mod, bool $debug=false)
     {
@@ -135,11 +126,6 @@ class Client
             $this->debug($mod->getApiName(true), $argStr, "POST", $response, $err, $info);
 
         $response = json_decode($response, true);
-        if(
-            ($response["error_code"] > ApiResponseCodes::OK) &&
-            ($response["error_code"] < ApiResponseCodes::SYS_WARNING)
-        )
-            throw new ORException($response["message"]);
         if(isset($response["id"]))
             $mod->setValue("id", $response["id"]);
         return $response;
@@ -148,7 +134,6 @@ class Client
      * @param BaseModels $mod
      * @param bool $debug
      * @return mixed
-     * @throws ORException
      */
     protected function modelGet(BaseModels &$mod, bool $debug=false)
     {
@@ -182,11 +167,6 @@ class Client
         }
 
         $response = json_decode($response, true);
-        if(
-            ($response["error_code"] > ApiResponseCodes::OK) &&
-            ($response["error_code"] < ApiResponseCodes::SYS_WARNING)
-        )
-            throw new ORException($response["message"]);
         if(isset($response[$mod->getModelName(true)][0]))
             $mod->setValues($response[$mod->getModelName(true)][0]);
         return $response;
@@ -195,7 +175,6 @@ class Client
      * @param BaseModels $mod
      * @param bool $debug
      * @return mixed
-     * @throws ORException
      */
     protected function modelPut(BaseModels $mod, bool $debug=false)
     {
@@ -221,20 +200,13 @@ class Client
         if($debug)
             $this->debug($mod->getApiName(true), $argStr, "PUT", $response, $err, $info);
 
-        $response = json_decode($response, true);
-        if(
-            ($response["error_code"] > ApiResponseCodes::OK) &&
-            ($response["error_code"] < ApiResponseCodes::SYS_WARNING)
-        )
-            throw new ORException($response["message"]);
+        return json_decode($response, true);
 
-        return $response;
     }
     /**
      * @param BaseModels $mod
      * @param bool $debug
      * @return mixed
-     * @throws ORException
      */
     protected function modelDelete(BaseModels $mod, bool $debug=false)
     {
@@ -260,21 +232,13 @@ class Client
         if($debug)
             $this->debug($mod->getApiName(true), $argStr, "DELETE", $response, $err, $info);
 
-        $response = json_decode($response, true);
-        if(
-            ($response["error_code"] > ApiResponseCodes::OK) &&
-            ($response["error_code"] < ApiResponseCodes::SYS_WARNING)
-        )
-            throw new ORException($response["message"]);
-
-        return $response;
+        return json_decode($response, true);
     }
     /**
      * @param $documentId
      * @param bool $dryRun
      * @param bool $debug
      * @return mixed
-     * @throws ORException
      */
     protected function book($documentId, bool $dryRun=true, bool $debug=false)
     {
@@ -301,13 +265,7 @@ class Client
         if($debug)
             $this->debug("ext/book", $argStr, ($dryRun?"GET":"PUT"), $response, $err, $info);
 
-        $response = json_decode($response, true);
-        if(
-            ($response["error_code"] > ApiResponseCodes::OK) &&
-            ($response["error_code"] < ApiResponseCodes::SYS_WARNING)
-        )
-            throw new ORException($response["message"]);
-        return $response;
+        return json_decode($response, true);
     }
 
     /**
@@ -315,7 +273,6 @@ class Client
      * @param array $arg
      * @param bool $debug
      * @return mixed
-     * @throws ORException
      */
     protected function get(string $api, array $arg, bool $debug=false)
     {
@@ -347,14 +304,7 @@ class Client
             header("Content-Type: {$info["content_type"]}");
             return $response;
         }
-
-        $response = json_decode($response, true);
-        if(
-            ($response["error_code"] > ApiResponseCodes::OK) &&
-            ($response["error_code"] < ApiResponseCodes::SYS_WARNING)
-        )
-            throw new ORException($response["message"]);
-        return $response;
+        return json_decode($response, true);
     }
 
     /**
@@ -362,7 +312,6 @@ class Client
      * @param array $arg
      * @param bool $debug
      * @return mixed
-     * @throws ORException
      */
     protected function put(string $api, array $arg, bool $debug=false)
     {
@@ -389,13 +338,7 @@ class Client
         if($debug)
             $this->debug("$api", $argStr, "PUT", $response, $err, $info);
 
-        $response = json_decode($response, true);
-        if(
-            ($response["error_code"] > ApiResponseCodes::OK) &&
-            ($response["error_code"] < ApiResponseCodes::SYS_WARNING)
-        )
-            throw new ORException($response["message"]);
-        return $response;
+        return json_decode($response, true);
     }
 
     /**
@@ -403,7 +346,6 @@ class Client
      * @param array $arg
      * @param bool $debug
      * @return mixed
-     * @throws ORException
      */
     protected function delete($api, array $arg, bool $debug=false)
     {
@@ -430,13 +372,7 @@ class Client
         if($debug)
             $this->debug("$api", $argStr, "DELETE", $response, $err, $info);
 
-        $response = json_decode($response, true);
-        if(
-            ($response["error_code"] > ApiResponseCodes::OK) &&
-            ($response["error_code"] < ApiResponseCodes::SYS_WARNING)
-        )
-            throw new ORException($response["message"]);
-        return $response;
+        return json_decode($response, true);
     }
 
     /**
@@ -444,7 +380,6 @@ class Client
      * @param array $arg
      * @param bool $debug
      * @return mixed
-     * @throws ORException
      */
     protected function post(string $api, array $arg, bool $debug=false)
     {
@@ -472,13 +407,7 @@ class Client
         if($debug)
             $this->debug("$api", $argStr, "POST", $response, $err, $info);
 
-        $response = json_decode($response, true);
-        if(
-            ($response["error_code"] > ApiResponseCodes::OK) &&
-            ($response["error_code"] < ApiResponseCodes::SYS_WARNING)
-        )
-            throw new ORException($response["message"]);
-        return $response;
+        return json_decode($response, true);
     }
 
     /**
@@ -501,7 +430,6 @@ class Client
      * @param $customerId
      * @param bool $debug
      * @return mixed
-     * @throws ORException
      */
     protected function creatDraftInvoice($customerId, bool $debug=false)
     {
@@ -531,13 +459,7 @@ class Client
             $this->debug("ext/documents/", $argStr, "POST", $response, $err, $info);
         }
 
-        $response = json_decode($response, true);
-        if(
-            ($response["error_code"] > ApiResponseCodes::OK) &&
-            ($response["error_code"] < ApiResponseCodes::SYS_WARNING)
-        )
-            throw new ORException($response["message"]);
-        return $response;
+        return json_decode($response, true);
     }
     /**
      * @param string $userName
@@ -545,7 +467,6 @@ class Client
      * @param int $ledgersId
      * @param bool $debug
      * @return mixed
-     * @throws ORException
      */
     private function login(string $userName, string $password, int $ledgersId, bool $debug=false)
     {
@@ -576,11 +497,6 @@ class Client
         }
 
         $response = json_decode($response, true);
-        if(
-            ($response["error_code"] > ApiResponseCodes::OK) &&
-            ($response["error_code"] < ApiResponseCodes::SYS_WARNING)
-        )
-            throw new ORException($response["message"]);
         return $response["token"];
     }
 
