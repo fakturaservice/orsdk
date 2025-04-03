@@ -21,13 +21,17 @@ use OrSdk\Models\BaseModels;
 
 class VatCodes extends BaseModels
 {
-    public $id;
-    public $code;
-    public $name;
-    public $rate;
-    public $accountsId;
-    public $type;
-    public $contraAccountsId;
-    public $vatSection;
-    public $active;
+    public ?string $id               = null;
+    public ?string $code             = null;
+    public ?string $name             = null;
+    public ?string $rate             = null;
+    public ?string $accountsId       = null;
+    public ?string $type             = null;
+    public ?string $contraAccountsId = null;
+    public ?string $vatSection       = null;
+    public ?string $active           = null;
+    public ?string $deductionRate    = null;
+    public ?string $readOnly         = null;
+    public ?string $calculation      = null;
+    public ?string $description      = null;
 }
