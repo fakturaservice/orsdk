@@ -58,7 +58,7 @@ class Client
     private function challengeToken(): bool
     {
         $res = $this->get("com/settings", ["id" => 1]);
-        return (bool)$res["result"];
+        return (bool)$res["result"]??false;
     }
 
     /**
