@@ -160,8 +160,9 @@ class Client
         if($debug)
             $this->debug($mod->getApiName(true), $argStr, "GET", $response, $err, $info);
 
-        if(isset($info["content_type"]) && ($info["content_type"] != "application/json;charset=utf-8"))
+        if(isset($info["content_type"]) && (str_replace(' ', '', $info["content_type"]) != "application/json;charset=utf-8"))
         {
+            echo "HELLO WORLD!";
             header("Content-Type: {$info["content_type"]}");
             return $response;
         }
@@ -299,7 +300,7 @@ class Client
         if($debug)
             $this->debug("$api", $argStr, "GET", $response, $err, $info);
 
-        if(isset($info["content_type"]) && ($info["content_type"] != "application/json;charset=utf-8"))
+        if(isset($info["content_type"]) && (str_replace(' ', '', $info["content_type"]) != "application/json;charset=utf-8"))
         {
             header("Content-Type: {$info["content_type"]}");
             return $response;
