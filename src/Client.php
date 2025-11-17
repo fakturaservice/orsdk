@@ -498,7 +498,7 @@ class Client
         }
 
         $response = json_decode($response, true);
-        return $response["token"];
+        return $response["token"]??null;
     }
 
 
