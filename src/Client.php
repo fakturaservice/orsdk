@@ -162,7 +162,6 @@ class Client
 
         if(isset($info["content_type"]) && (str_replace(' ', '', $info["content_type"]) != "application/json;charset=utf-8"))
         {
-            echo "HELLO WORLD!";
             header("Content-Type: {$info["content_type"]}");
             return $response;
         }
