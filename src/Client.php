@@ -27,7 +27,7 @@ class Client
 {
     const TOKEN_PATTERN = "/^\d{1,6}_\d{1,6};[BERT][AG](ST|AC|AP|SU|DE)[a-zA-Z0-9]+;[a-zA-Z0-9.-]+\.(onlineregnskab\.dk|onlineregnskab\.test)$/";
     private string $_ORApiHost;
-    private string $_ORApiToken;
+    private ?string $_ORApiToken;
     private bool $_ORApiTokenRenewed;
 
     /**
