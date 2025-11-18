@@ -37,10 +37,11 @@ abstract class BaseModels
             $this->setValues($values);
     }
 
+
     /**
      * @return void
      */
-    public function empty()
+    public function empty(): void
     {
         foreach ($this as $key => $value)
         {

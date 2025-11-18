@@ -66,10 +66,10 @@ class ORException extends Exception
     const LV_WARNING    = 3;
     const LV_FATAL      = 4;
 
-    private $_channels;
-    private $_level;
+    private int $_channels;
+    private int $_level;
 
-    public function __construct($message = "", $channel = self::CH_ALL, $level = self::LV_LOG,
+    public function __construct(string $message = "", int $channel = self::CH_ALL, int $level = self::LV_LOG,
                                 $code = 0, Exception $previous = null)
     {
         parent::__construct($message, $code, $previous);
@@ -78,18 +78,14 @@ class ORException extends Exception
         $this->_level       = $level;
     }
 
-    /**
-     * @return int|mixed
-     */
-    public function getLevel()
+
+    public function getLevel(): int
     {
         return $this->_level;
     }
 
-    /**
-     * @return int|mixed
-     */
-    public function getCh()
+
+    public function getCh(): int
     {
         return $this->_channels;
     }
@@ -99,14 +95,13 @@ class ORException extends Exception
      */
     public function getLevelStr(): string
     {
-        switch($this->_level)
-        {
-            case self::LV_LOG:      return "LOG";
-            case self::LV_DEBUG:    return "DEBUG";
-            case self::LV_WARNING:  return "WARNING";
-            case self::LV_FATAL:    return "FATAL";
-            default:                return "NO LEVEL";
-        }
+        return match ($this->_level) {
+            self::LV_LOG => "LOG",
+            self::LV_DEBUG => "DEBUG",
+            self::LV_WARNING => "WARNING",
+            self::LV_FATAL => "FATAL",
+            default => "NO LEVEL",
+        };
     }
 
     /**
@@ -194,7 +189,7 @@ class ORException extends Exception
     /**
      * @param bool $short
      */
-    public function log(bool $short=true)
+    public function log(bool $short=true): void
     {
         $trace = $this->getTrace();
 

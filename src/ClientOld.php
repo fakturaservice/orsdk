@@ -23,7 +23,7 @@ use OrSdk\Models\Com\Documents\DocumentType;
  * Class OrApiClient
  * @package Models
  */
-class Client
+class ClientOld
 {
     const TOKEN_PATTERN = "/^\d{1,6}_\d{1,6};[BERT][AG](ST|AC|AP|SU|DE)[a-zA-Z0-9]+;[a-zA-Z0-9.-]+\.(onlineregnskab\.dk|onlineregnskab\.test)$/";
     private string $_ORApiHost;
