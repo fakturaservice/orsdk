@@ -72,7 +72,7 @@ class MyAccountingProgram extends Client
         echo "Input DB login:\n";
         $host       = $this->getUserInput("Host", null, "http://api.onlineregnskab.test/");
         $user       = $this->getUserInput("User", null, "testbruger");
-        $password   = $this->getUserInput("Password");
+        $password   = $this->getUserInput("Password", null, "", true);
         $ledgersId  = $this->getUserInput("LedgerId", null, "101");
 
         parent::__construct($host, $user, $password, $ledgersId);
@@ -103,12 +103,9 @@ class MyAccountingProgram extends Client
         ]);
         switch ($cmd)
         {
-            case "1":
-            {
-                print_r($this->settings());
-                break;
-            }
+            case "1":print_r($this->settings());break;
             case "2": print_r($this->getDocuments());break;
+            case "3": echo "\n\t* Not implemented *\n";break;
             case "4":
             {
                 $startDate = $this->getUserInput("Start date", [
@@ -226,25 +223,45 @@ class MyAccountingProgram extends Client
      * @param string $param
      * @param array|null $description
      * @param string $default
+     * @param bool $hidden
      * @return string
      */
-    private function getUserInput(string $param, array $description=null, string $default=""): string
+    private function getUserInput(string $param, array $description = null, string $default = "", bool $hidden = false): string
     {
-        if(isset($description))
-        {
+        if ($description !== null) {
             $sizeOfDescriptionDecorator = 0;
             echo "\n";
-            foreach ($description as $str)
-            {
+            foreach ($description as $str) {
                 echo "$str\n";
                 $sizeOfDescriptionDecorator = max(strlen($str), $sizeOfDescriptionDecorator);
             }
-            echo str_repeat("#", $sizeOfDescriptionDecorator);
-            echo "\n";
+            echo str_repeat("#", $sizeOfDescriptionDecorator) . "\n";
         }
-        echo "\n\t$param ($default):\t";
-        $userInput = trim(fgets(STDIN));
-        return (empty($userInput)?$default:$userInput);
+
+        // Always print the prompt from PHP
+        echo "\n\t$param" . ($default !== "" ? " ($default)" : "") . ":\t";
+
+        if ($hidden) {
+            if (PHP_OS_FAMILY === 'Windows') {
+                // Windows: read hidden input via PowerShell, no prompt there
+                $psCmd = '$pwd = Read-Host -AsSecureString; ' .
+                    '$BSTR = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($pwd); ' .
+                    '[System.Runtime.InteropServices.Marshal]::PtrToStringAuto($BSTR)';
+                $cmd = 'powershell -NoProfile -Command ' . escapeshellarg($psCmd);
+                $userInput = rtrim(shell_exec($cmd));
+                echo "\n";
+            } else {
+                // Unix / Cygwin PHP: use stty
+                system('stty -echo');
+                $userInput = trim(fgets(STDIN));
+                system('stty echo');
+                echo "\n";
+            }
+        } else {
+            $userInput = trim(fgets(STDIN));
+        }
+
+        return $userInput === '' ? $default : $userInput;
     }
 
     /**
