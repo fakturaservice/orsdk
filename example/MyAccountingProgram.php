@@ -30,14 +30,9 @@ use OrSdk\Models\Com\Documents\{
     DocumentStatus
 };
 
-use OrSdk\Util\ORException;
 use OrSdk\Models\Com\Accounts\{
     Accounts,
-    AccountsTypes,
-    AccountType,
-    Active,
-    BankAccount,
-    BankGiroType
+    AccountType
 };
 use OrSdk\Models\Com\Contacts\{
     Contacts,
@@ -71,7 +66,6 @@ class MyAccountingProgram extends Client
 
     /**
      * MyAccountingProgram constructor.
-     * @throws ORException
      */
     public function __construct()
     {
@@ -82,32 +76,39 @@ class MyAccountingProgram extends Client
         $ledgersId  = $this->getUserInput("LedgerId", null, "101");
 
         parent::__construct($host, $user, $password, $ledgersId);
+        if(!$this->isTokenRenewed())
+        {
+            echo "Token was expired.\n";
+            exit(0);
+        }
 
         $this->_settings = new Settings();
         $this->modelGet($this->_settings);
     }
 
+
     /**
      * @return void
-     * @throws ORException
      */
-    public function userInterface()
+    public function userInterface(): void
     {
+
         $cmd = $this->getUserInput("Command", [
-            "Type what command you want to run:",
+            "\n\nType what command you want to run:",
             "\t1. Get setting",
             "\t2. Get all documents",
             "\t3. Create new invoice",
-            "\t4. Download account statements"
+            "\t4. Download account statements",
+            "\t5. Quit"
         ]);
         switch ($cmd)
         {
             case "1":
             {
                 print_r($this->settings());
-                return;
+                break;
             }
-            case "2": print_r($this->getDocuments());return;
+            case "2": print_r($this->getDocuments());break;
             case "4":
             {
                 $startDate = $this->getUserInput("Start date", [
@@ -126,18 +127,40 @@ class MyAccountingProgram extends Client
                 $this->downloadAllAccountStatements($startDate, $endDate, $excludeEmptyAccounts, $path);
                 break;
             }
+            case "5":
+            {
+                echo "Bye\n";
+                return;
+            }
         }
+        $this->userInterface();
+
     }
 
+
     /**
-     * @throws ORException
+     * @param $startDate
+     * @param $endDate
+     * @param $excludeEmptyAccounts
+     * @param $path
+     * @return void
      */
-    private function downloadAllAccountStatements($startDate, $endDate, $excludeEmptyAccounts, $path)
+    private function downloadAllAccountStatements($startDate, $endDate, $excludeEmptyAccounts, $path): void
     {
+        $excludeEmptyAccounts = preg_match('/^y(es)?$/i', trim($excludeEmptyAccounts)) ? 'yes' : 'no';
         $res = $this->get("ext/reports/balance_sheet", [
             "entryDate" => "><$startDate;$endDate",
             "excludeEmptyAccounts" => "$excludeEmptyAccounts"
         ]);
+        if($res === null)
+        {
+            echo "Failed to get all balance sheet\n";
+            return;
+        }
+        else if($res["error_code"] != 0) {
+            print_r($res);
+            return;
+        }
         $total = count(array_filter($res["balance_sheet"],function($element) {
             return (
                 ($element['accountType'] == AccountType::income) ||
@@ -178,7 +201,21 @@ class MyAccountingProgram extends Client
         $this->progressBar($done, $total, "See: $path");
         echo "\nDone\n";
     }
-    private function progressBar($done, $total, $name) {
+
+    /**
+     * @param $done
+     * @param $total
+     * @param $name
+     * @return void
+     */
+    private function progressBar($done, $total, $name): void
+    {
+        if($total == 0)
+        {
+            $write      = sprintf("\033[0G\033[2K[%'=0s>%-0s] - 0%% - $done/$total (No downloads)", "", "");
+            fwrite(STDERR, $write);
+            return;
+        }
         $percent    = floor(($done / $total) * 100);
         $left       = 100 - $percent;
         $write      = sprintf("\033[0G\033[2K[%'={$percent}s>%-{$left}s] - $percent%% - $done/$total ($name)", "", "");
@@ -211,34 +248,30 @@ class MyAccountingProgram extends Client
     }
 
     /**
-     * @param bool $format
      * @return false|string
      */
-    public function settings(bool $format=false)
+    public function settings(): false|string
     {
-        return json_encode($this->_settings);
+        return json_encode($this->_settings,JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
     }
 
     /**
-     * @param bool $format
      * @return false|string
-     * @throws ORException
      */
-    public function getDocuments(bool $format=false)
+    public function getDocuments(): false|string
     {
         $doc = new Documents(["documentType" => "income"]);
         $this->modelGet($doc);
 
-        return json_encode($doc);
+        return json_encode($doc,JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
     }
 
     /**
      * @return false|string
-     * @throws ORException
      */
-    public function createInvoice()
+    public function createInvoice(): false|string
     {
-        $today      = new \DateTime();
+        $today      = new DateTime();
         $dueDate    = clone $today;
 
         $acc    = new Accounts();
@@ -255,7 +288,7 @@ class MyAccountingProgram extends Client
         $con->contactType       = ContactType::customer;
         $con->customerIdentify  = "820";
         $this->modelGet($con);
-        $dueDate->add(new \DateInterval("P{$con->daysAfterBasis}D"));
+        $dueDate->add(new DateInterval("P{$con->daysAfterBasis}D"));
 
         $itm->articleNo = "19";
         $this->modelGet($itm);
@@ -360,6 +393,7 @@ class MyAccountingProgram extends Client
         
         return json_encode($ready);
     }
+
 
     /**
      * @param $docId
